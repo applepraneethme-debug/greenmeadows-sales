@@ -1,0 +1,325 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+    --primary-green: #4a5d4e; /* Dark forest green from the logo leaf */
+    --accent-gold: #c5a059;   /* Muted gold from the brochure illustrations */
+    --bg-cream: #f9f7e8;      /* The soft cream background of the image */
+    --text-main: #333333;
+    --card-bg: #ffffff;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif; /* Cleaner for construction brands */
+}
+
+body {
+    background: var(--bg-cream);
+    color: var(--text-main);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.container{
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+/* HEADER */
+.header {
+    text-align: center; /* Center aligned like the brochure */
+    margin-bottom: 40px;
+    border-left: none; 
+    padding: 20px 0;
+}
+
+.title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    color: var(--primary-green);
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 12px;
+    color: var(--accent-gold);
+    margin-top: 8px;
+    font-weight: 600;
+}
+
+/* DASHBOARD STATS */
+.dashboard{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.stat-card {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--accent-gold); /* Minimal line instead of box */
+    border-radius: 0;
+    box-shadow: none;
+    text-align: center;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-title{
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.stat-number {
+    color: var(--primary-green);
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+}
+
+/* SECTION TITLES */
+h3 {
+    font-size: 18px;
+    margin: 30px 0 15px 0;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+/* BUTTONS (BLOCK & FLOOR) */
+.block-grid, .floor-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.block-grid { grid-template-columns: repeat(4, 1fr); }
+.floor-grid { grid-template-columns: repeat(6, 1fr); margin-top: 10px; }
+
+.block-btn, .floor-btn {
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-main);
+}
+
+/* HOVER & ACTIVE STATES */
+.block-btn:hover, .floor-btn:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* This is the magic class for when a button is selected */
+.block-btn.active, .floor-btn.active {
+    background: var(--primary-green);
+    border-color: var(--primary-green);
+    color: #fff;
+}
+
+/* FLAT CARDS */
+
+.floor-layout {
+    margin-top: 30px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+}
+.flat-card {
+    min-width: 100px; /* Ensures they don't get too squished */
+    flex: 1;
+    text-align: center;
+}
+.flat-row {
+    display: flex; /* Using flex for better control over spacing */
+    justify-content: space-around;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.flat-number {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.status {
+    margin-top: 10px;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.available { background: #dcfce7; color: #166534; }
+.sold { background: #fee2e2; color: #991b1b; }
+/* Special Styling for GHMC Mortgage */
+/* This targets both "reserved" and "reserved (m)" classes */
+.status.reserved {
+    background: #fff7ed; 
+    color: #ea580c;      
+    border: 1px solid #fdba74;
+    font-weight: 600;
+}
+
+.mortgage-tag {
+    font-weight: 800;
+    margin-left: 4px;
+    color: #c2410c;
+}
+.corridor {
+    background: #f1f5f9;
+    border: 2px dashed #cbd5e1;
+    color: #64748b;
+    font-weight: 700;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 15px 0;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+/* NEW LOBBY STYLE */
+.flat-card.lobby-box {
+    background: #eef1ee; /* Very light green-grey */
+    border: 1px dashed var(--primary-green);
+    color: var(--primary-green);
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+    box-shadow: none; /* Keep it flat to look like a structural element */
+}
+
+/* LIVE PANEL - CLEANER */
+.live-panel {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(30, 58, 138, 0.95); /* Deep blue with slight transparency */
+    backdrop-filter: blur(8px); /* Modern blur effect */
+    color: white;
+    border-radius: 50px; /* Makes it a pill/rounded rectangle */
+    padding: 8px 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.live-panel strong {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    padding-right: 15px;
+}
+
+.live-panel div {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* MOBILE OPTIMIZATIONS */
+@media (max-width: 768px) {
+   .container {
+        padding-bottom: 80px; 
+    }
+
+    /* Stack stats in 2 columns instead of 4 */
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    /* Make buttons scrollable horizontally if they don't fit */
+    .block-grid, .floor-grid {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        gap: 8px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .block-btn, .floor-btn {
+        flex: 0 0 auto; /* Prevents buttons from shrinking */
+        min-width: 100px;
+        padding: 12px;
+    }
+
+    /* THE KEY FIX: Floor Layout Mobile */
+
+    .floor-layout {
+        padding: 15px 5px; /* Less side padding to give more room */
+        overflow-x: auto; /* This allows the whole floor to scroll */
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .flat-row {
+        display: flex; /* Switch back to flex for horizontal layout */
+        flex-wrap: nowrap; /* Prevent them from jumping to the next line */
+        gap: 12px;
+        padding: 10px;
+        width: max-content; /* Critical: makes the row as wide as the flats */
+    }
+
+    .flat-card {
+        width: 120px; /* Fixed width so they stay readable while scrolling */
+        flex: 0 0 auto; /* Stop them from shrinking */
+    }
+
+    .corridor {
+        width: max-content;
+        min-width: 100%; /* Ensures corridor stretches across the scrollable area */
+        position: sticky; /* Optional: keeps "LIFT" visible while scrolling */
+        left: 0;
+    }
+
+
+    /* Hide the floating live panel if it blocks the view */
+.live-panel {
+        bottom: 20px; /* Floating slightly off the bottom */
+        left: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        justify-content: center; /* Center items on phone */
+        gap: 15px;
+        border-radius: 12px; /* Subtle rounded corners for mobile */
+    }
+
+    .live-panel strong {
+        display: none; /* Hide 'Live Status' label on mobile to save space */
+    }
+
+    .container {
+        padding-bottom: 90px; /* Space so user can see bottom flats */
+    }
+
+
+}
+.live-panel {
+    background: rgba(74, 93, 78, 0.9); /* Matching Green */
+    border: 1px solid var(--accent-gold);
+}

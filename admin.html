@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Admin</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body>
+
+<div class="admin-box">
+
+<h2>Update Flat Status</h2>
+
+<input id="flatNumber" placeholder="Flat Number (A101)">
+
+<select id="flatStatus">
+
+<option value="available">available</option>
+<option value="sold">sold</option>
+<option value="reserved">reserved</option>
+<option value="reserved(M)">reserved(M)</option>
+
+</select>
+
+<button onclick="updateFlatStatus()">
+
+Update
+
+</button>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

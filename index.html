@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunshine Green Meadows Availability</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<div class="title">Sunshine Green Meadows</div>
+<div class="subtitle">Live Availability Dashboard</div>
+
+</div>
+
+
+<div class="dashboard">
+
+<div class="stat-card">
+<div class="stat-title">Total Units</div>
+<div class="stat-number" id="totalUnits">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">Available</div>
+<div class="stat-number" id="availableUnits">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">Sold</div>
+<div class="stat-number" id="soldUnits">0</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-title">Reserved</div>
+<div class="stat-number" id="reservedUnits">0</div>
+</div>
+
+</div>
+
+<div class="block-section">
+
+<h3>Select Block</h3>
+
+<div class="block-grid">
+
+<button class="block-btn" onclick="openBlock('A')">Block A</button>
+<button class="block-btn" onclick="openBlock('B')">Block B</button>
+<button class="block-btn" onclick="openBlock('C')">Block C</button>
+<button class="block-btn" onclick="openBlock('D')">Block D</button>
+
+</div>
+
+</div>
+
+<div id="floors"></div>
+
+<div id="flats"></div>
+
+</div>
+
+<div class="live-panel">
+    <strong>Live Status</strong>
+    <div id="liveAvailable">Available: 0</div>
+    <div id="liveSold">Sold: 0</div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

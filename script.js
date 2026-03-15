@@ -1,0 +1,145 @@
+const SUPABASE_URL = "https://wpyxkfoxdshhpjkgctsi.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndweXhrZm94ZHNoaHBqa2djdHNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0ODM4ODIsImV4cCI6MjA4OTA1OTg4Mn0.wKvdJSVqE4Sg2FoPwKE65NK6xB1eRVeE336a6rRhmj4";
+
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+window.onload=loadDashboard
+
+async function loadDashboard(){
+
+let {data}=await supabaseClient.from("flats").select("*")
+
+let total=data.filter(f=>f.availability!=="lobby").length
+let available=data.filter(f=>f.availability==="available").length
+let sold=data.filter(f=>f.availability==="sold").length
+let reserved=data.filter(f=>f.availability==="reserved").length
+
+document.getElementById("totalUnits").innerText=total
+document.getElementById("availableUnits").innerText=available
+document.getElementById("soldUnits").innerText=sold
+document.getElementById("reservedUnits").innerText=reserved
+
+document.getElementById("liveAvailable").innerText="Available: "+available
+document.getElementById("liveSold").innerText="Sold: "+sold
+}
+
+function openBlock(block) {
+    // 1. Handle Active UI with Exact Match
+    document.querySelectorAll('.block-btn').forEach(btn => {
+        btn.classList.remove('active');
+        // We check if the button text is exactly "Block " + the letter (e.g., "Block B")
+        if (btn.innerText.trim() === `Block ${block}`) {
+            btn.classList.add('active');
+        }
+    });
+
+    let floors = document.getElementById("floors");
+    floors.innerHTML = "<h3>Select Floor</h3>";
+
+    let grid = document.createElement("div");
+    grid.className = "floor-grid";
+
+    let list = ["G", "1", "2", "3", "4", "5"];
+
+    list.forEach(f => {
+        let btn = document.createElement("button");
+        btn.className = "floor-btn";
+        btn.innerText = "Floor " + f;
+        btn.onclick = (e) => {
+            document.querySelectorAll('.floor-btn').forEach(fb => fb.classList.remove('active'));
+            btn.classList.add('active');
+            openFloor(block, f);
+        };
+        grid.appendChild(btn);
+    });
+
+    floors.appendChild(grid);
+    document.getElementById("flats").innerHTML = "";
+}
+
+async function openFloor(block, floor) {
+    let { data } = await supabaseClient
+        .from("flats")
+        .select("*")
+        .eq("block", block)
+        .eq("floor", floor)
+        .order("flat_number", { ascending: true });
+
+    let flatsContainer = document.getElementById("flats");
+    flatsContainer.innerHTML = "";
+
+    // Separate based on your architectural plan
+    // Usually North/West in the top row, South/East in the bottom row
+    let west = data.filter(f => f.facing === "West");
+    let east = data.filter(f => f.facing === "East");
+
+    let layout = document.createElement("div");
+    layout.className = "floor-layout";
+
+    // TOP ROW (e.g., Flats 5, 6, 7, 8)
+    let row1 = document.createElement("div");
+    row1.className = "flat-row";
+    west.forEach(f => row1.appendChild(createFlat(f)));
+
+    // THE CORRIDOR
+    let corridor = document.createElement("div");
+    corridor.className = "corridor";
+    corridor.innerText = "LIFT / CORRIDOR / STAIRS";
+
+    // BOTTOM ROW (e.g., Flats 4, 3, 2, 1)
+    // Note: Use .reverse() if you want the numbers to count down as in your sketch
+    let row2 = document.createElement("div");
+    row2.className = "flat-row";
+    east.reverse().forEach(f => row2.appendChild(createFlat(f)));
+
+    layout.appendChild(row1);
+    layout.appendChild(corridor);
+    layout.appendChild(row2);
+
+    flatsContainer.appendChild(layout);
+}
+function createFlat(flat) {
+    let div = document.createElement("div");
+    
+    if (flat.availability === "lobby") {
+        div.className = "flat-card lobby-box";
+        div.innerHTML = `<div style="font-size: 10px;">LOBBY</div>`;
+        return div;
+    }
+
+    // NEW CLEAN LOGIC:
+    // Check if the status starts with "reserved" (handles "reserved" and "reserved (M)")
+    let isReserved = flat.availability.toLowerCase().includes("reserved");
+    let statusClass = isReserved ? "reserved" : flat.availability;
+    let statusText = flat.availability.toUpperCase();
+
+    // If it's a mortgage unit, make the (M) look nice
+    if (statusText.includes("(M)")) {
+        statusText = statusText.replace("(M)", '<span class="mortgage-tag">(M)</span>');
+    }
+
+    div.className = "flat-card";
+    div.innerHTML = `
+        <div class="flat-number" style="font-size: 16px;">${flat.flat_number}</div>
+        <div class="unit-info" style="font-size: 10px; color: #666; margin-bottom: 8px;">
+            ${flat.bhk} • ${flat.sft} sft • <strong>${flat.facing}</strong>
+        </div>
+        <div class="status ${statusClass}">
+            ${statusText}
+        </div>
+    `;
+    return div;
+}
+
+async function updateFlatStatus(){
+
+let flat=document.getElementById("flatNumber").value
+let status=document.getElementById("flatStatus").value
+
+await supabaseClient
+.from("flats")
+.update({availability:status})
+.eq("flat_number",flat)
+
+alert("Updated")
+}
