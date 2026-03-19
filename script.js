@@ -4,7 +4,16 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 window.onload=loadDashboard
+let selectedFlat = null;
 
+function openPricingForm(flat) {
+    selectedFlat = flat;
+    document.getElementById("pricingModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("pricingModal").style.display = "none";
+}
 async function loadDashboard(){ 
 
 let {data}=await supabaseClient.from("flats").select("*")
@@ -128,27 +137,28 @@ function createFlat(flat) {
     if (flat.availability === "available") {
         div.style.cursor = "pointer";
 
-        div.onclick = () => {
-            const text = `*Sunshine Green Meadows - Flat Inquiry*\n\n` +
-                         `Flat: ${flat.flat_number}\n` +
-                         `Configuration: ${flat.bhk}\n` +
-                         `Area: ${flat.sft} Sft\n` +
-                         `Facing: ${flat.facing}\n\n` +
-                         `This unit is currently AVAILABLE.`;
-
-            const encodedText = encodeURIComponent(text);
-
-            // ✅ CORRECT LINK FOR MOBILE + CONTACT PICKER
-            const url = `https://api.whatsapp.com/send?text=${encodedText}`;
-
-            window.open(url, "_blank");
-        };
+      div.onclick = () => {
+    openPricingForm(flat);
+};
     }
 
     return div;
 }
 
+function generatePriceSheet() {
+    const name = document.getElementById("customerName").value;
+    const rate = document.getElementById("pricePerSft").value;
+    const facing = document.getElementById("facingCharges").checked;
 
+    console.log("Flat:", selectedFlat);
+    console.log("Name:", name);
+    console.log("Rate:", rate);
+    console.log("Facing:", facing);
+
+    alert("Next step: calculation + PDF");
+
+    closeModal();
+}
 
 async function updateFlatStatus(){
 
