@@ -148,37 +148,71 @@ function calculateCost(flat, rate, facingEnabled) {
 
     const area = flat.sft;
 
-    // 1. Base Price
+    // 1. Base price
     const basePrice = area * rate;
 
-    // 2. Amenities (based on BHK)
-    let amenities = 0;
-    if (flat.bhk.includes("2")) {
-        amenities = 600000;
-    } else if (flat.bhk.includes("3")) {
-        amenities = 700000;
-    }
+    // 2. Amenities
+    let amenities = flat.bhk.includes("2") ? 600000 : 700000;
 
-    // 3. Facing Charges
+    // 3. Facing charges
     const facingCharges = facingEnabled ? area * 100 : 0;
 
-    // 4. Subtotal
-    const total = basePrice + amenities + facingCharges;
+    // 4. Total Value BEFORE GST
+    const totalValue = basePrice + amenities;
 
     // 5. GST (5%)
-    const gst = total * 0.05;
+    const gst = totalValue * 0.05;
 
-    // 6. Grand Total
-    const grandTotal = total + gst;
+    // 6. Total Amount (after GST)
+    const totalAmount = totalValue + gst;
+
+    // ========================
+    // EXTRA CHARGES
+    // ========================
+
+    const maintenance = area * 3 * 12;      // ₹3 per sft * 12 months
+    const corpus = area * 75;               // ₹75 per sft
+    const registration = totalAmount * 0.076; // 7.6%
+    const documentation = 15000;
+
+    const totalExtra =
+        facingCharges +
+        maintenance +
+        corpus +
+        registration +
+        documentation;
+
+    // ========================
+    // GRAND TOTAL
+    // ========================
+
+    const grandTotal = totalAmount + totalExtra;
+
+    // ========================
+    // PAYMENT SCHEDULE
+    // ========================
+
+    const bookingAmount = 500000;
+    const twentyPercent = grandTotal * 0.20;
+    const loanAmount = grandTotal - twentyPercent;
 
     return {
         area,
         basePrice,
         amenities,
         facingCharges,
-        total,
+        totalValue,
         gst,
-        grandTotal
+        totalAmount,
+        maintenance,
+        corpus,
+        registration,
+        documentation,
+        totalExtra,
+        grandTotal,
+        bookingAmount,
+        twentyPercent,
+        loanAmount
     };
 }
 function generatePriceSheet() {
@@ -196,7 +230,7 @@ function generatePriceSheet() {
     console.log("RESULT:", result);
 
     alert(`Grand Total for ${name}: ₹${result.grandTotal.toLocaleString()}`);
-
+console.log("FULL BREAKDOWN:", result);
     closeModal();
 }
 
