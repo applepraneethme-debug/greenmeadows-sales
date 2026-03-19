@@ -227,10 +227,34 @@ function generatePriceSheet() {
 
     const result = calculateCost(selectedFlat, rate, facing);
 
-    console.log("RESULT:", result);
+    // Fill template
+    document.getElementById("pdfName").innerText = name;
+    document.getElementById("pdfFlat").innerText = selectedFlat.flat_number;
 
-    alert(`Grand Total for ${name}: ₹${result.grandTotal.toLocaleString()}`);
-console.log("FULL BREAKDOWN:", result);
+    document.getElementById("pdfArea").innerText = result.area;
+    document.getElementById("pdfBase").innerText = result.basePrice.toLocaleString();
+    document.getElementById("pdfAmenities").innerText = result.amenities.toLocaleString();
+    document.getElementById("pdfTotalValue").innerText = result.totalValue.toLocaleString();
+    document.getElementById("pdfGST").innerText = result.gst.toLocaleString();
+    document.getElementById("pdfTotalAmount").innerText = result.totalAmount.toLocaleString();
+
+    document.getElementById("pdfFacing").innerText = result.facingCharges.toLocaleString();
+    document.getElementById("pdfMaintenance").innerText = result.maintenance.toLocaleString();
+    document.getElementById("pdfCorpus").innerText = result.corpus.toLocaleString();
+    document.getElementById("pdfRegistration").innerText = result.registration.toLocaleString();
+    document.getElementById("pdfDoc").innerText = result.documentation.toLocaleString();
+
+    document.getElementById("pdfExtra").innerText = result.totalExtra.toLocaleString();
+    document.getElementById("pdfGrand").innerText = result.grandTotal.toLocaleString();
+
+    document.getElementById("pdf20").innerText = result.twentyPercent.toLocaleString();
+    document.getElementById("pdfLoan").innerText = result.loanAmount.toLocaleString();
+
+    // Generate PDF
+    const element = document.getElementById("pdfTemplate");
+
+    html2pdf().from(element).save(`PriceSheet_${name}.pdf`);
+
     closeModal();
 }
 
