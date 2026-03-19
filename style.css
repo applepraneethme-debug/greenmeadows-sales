@@ -193,6 +193,15 @@ h3 {
     font-size: 13px;
     letter-spacing: 2px;
 }
+.flat-card.available {
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.flat-card.available:hover {
+    transform: scale(1.02);
+    border-color: var(--primary-green);
+} 
 /* NEW LOBBY STYLE */
 .flat-card.lobby-box {
     background: #eef1ee; /* Very light green-grey */
@@ -324,12 +333,4 @@ h3 {
     border: 1px solid var(--accent-gold);
 }
 /* Make available flats look clickable */
-.flat-card.available {
-    cursor: pointer;
-    transition: transform 0.2s ease, border-color 0.2s ease;
-}
 
-.flat-card.available:hover {
-    transform: scale(1.02);
-    border-color: var(--primary-green);
-}
