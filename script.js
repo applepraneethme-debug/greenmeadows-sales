@@ -253,16 +253,24 @@ function generatePriceSheet() {
     // Generate PDF
 const element = document.getElementById("pdfTemplate");
 
-// temporarily show
+// show temporarily
 element.style.visibility = "visible";
 element.style.position = "static";
 
-html2pdf().from(element).save(`PriceSheet_${name}.pdf`).then(() => {
-    // hide again
-    element.style.visibility = "hidden";
-    element.style.position = "absolute";
-});
+// ⬇️ ADD setTimeout HERE
+setTimeout(() => {
+    html2pdf().from(element).save(`PriceSheet_${name}.pdf`).then(() => {
 
+        element.style.visibility = "hidden";
+        element.style.position = "absolute";
+
+        const text = `Hi ${name}, sharing your flat cost sheet.`;
+        const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+
+        window.open(url, "_blank");
+
+    });
+}, 300);
     closeModal();
 }
 
