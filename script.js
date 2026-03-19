@@ -118,20 +118,22 @@ function createFlat(flat) {
     
     // THE WHATSAPP INTEGRATION
     // We only add the click event if the flat is AVAILABLE
- if (flat.availability === "available") {
+if (flat.availability === "available") {
     div.onclick = () => {
-        // Use encodeURIComponent to make sure the message works on all phones
-        let message = encodeURIComponent(
-            `*Sunshine Green Meadows - Flat Inquiry*\n\n` +
-            `*Flat:* ${flat.flat_number}\n` +
-            `*Configuration:* ${flat.bhk}\n` +
-            `*Area:* ${flat.sft} Sft\n` +
-            `*Facing:* ${flat.facing}\n\n` +
-            `This unit is currently *AVAILABLE*.`
-        );
-        
-        // This 'wa.me' link works better on both Android and iPhone
-        window.location.href = `https://wa.me/?text=${message}`;
+        // 1. Create the plain text message
+        const text = `*Sunshine Green Meadows - Flat Inquiry*\n\n` +
+                     `*Flat:* ${flat.flat_number}\n` +
+                     `*Configuration:* ${flat.bhk}\n` +
+                     `*Area:* ${flat.sft} Sft\n` +
+                     `*Facing:* ${flat.facing}\n\n` +
+                     `This unit is currently *AVAILABLE*.`;
+
+        // 2. Encode it so the phone app can read it properly
+        const encodedText = encodeURIComponent(text);
+
+        // 3. Use 'window.location.href' for mobile. 
+        // This 'wa.me' link triggers the "Send to..." list in the app.
+        window.location.href = `https://wa.me/?text=${encodedText}`;
     };
 }
 
