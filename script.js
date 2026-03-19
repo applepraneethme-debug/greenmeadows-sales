@@ -12,12 +12,10 @@ let {data}=await supabaseClient.from("flats").select("*")
 let total=data.filter(f=>f.availability!=="lobby").length
 let available=data.filter(f=>f.availability==="available").length
 let sold=data.filter(f=>f.availability==="sold").length
-let reserved=data.filter(f=>f.availability==="reserved").length
 
 document.getElementById("totalUnits").innerText=total
 document.getElementById("availableUnits").innerText=available
 document.getElementById("soldUnits").innerText=sold
-document.getElementById("reservedUnits").innerText=reserved
 
 document.getElementById("liveAvailable").innerText="Available: "+available
 document.getElementById("liveSold").innerText="Sold: "+sold
