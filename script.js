@@ -144,18 +144,58 @@ function createFlat(flat) {
 
     return div;
 }
+function calculateCost(flat, rate, facingEnabled) {
 
+    const area = flat.sft;
+
+    // 1. Base Price
+    const basePrice = area * rate;
+
+    // 2. Amenities (based on BHK)
+    let amenities = 0;
+    if (flat.bhk.includes("2")) {
+        amenities = 600000;
+    } else if (flat.bhk.includes("3")) {
+        amenities = 700000;
+    }
+
+    // 3. Facing Charges
+    const facingCharges = facingEnabled ? area * 100 : 0;
+
+    // 4. Subtotal
+    const total = basePrice + amenities + facingCharges;
+
+    // 5. GST (5%)
+    const gst = total * 0.05;
+
+    // 6. Grand Total
+    const grandTotal = total + gst;
+
+    return {
+        area,
+        basePrice,
+        amenities,
+        facingCharges,
+        total,
+        gst,
+        grandTotal
+    };
+}
 function generatePriceSheet() {
     const name = document.getElementById("customerName").value;
-    const rate = document.getElementById("pricePerSft").value;
+    const rate = parseFloat(document.getElementById("pricePerSft").value);
     const facing = document.getElementById("facingCharges").checked;
 
-    console.log("Flat:", selectedFlat);
-    console.log("Name:", name);
-    console.log("Rate:", rate);
-    console.log("Facing:", facing);
+    if (!name || !rate) {
+        alert("Please fill all fields");
+        return;
+    }
 
-    alert("Next step: calculation + PDF");
+    const result = calculateCost(selectedFlat, rate, facing);
+
+    console.log("RESULT:", result);
+
+    alert(`Grand Total for ${name}: ₹${result.grandTotal.toLocaleString()}`);
 
     closeModal();
 }
