@@ -172,3 +172,7 @@ await supabaseClient
 
 alert("Updated")
 }
+// This makes sure the dashboard loads as soon as the page opens
+window.onload = () => {
+    loadDashboard(); 
+};
