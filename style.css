@@ -53,9 +53,9 @@ body {
 }
 
 /* DASHBOARD STATS */
-.dashboard{
+.dashboard {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr); /* Change from 4 to 3 */
     gap: 20px;
     margin-top: 30px;
 }
