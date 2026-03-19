@@ -323,3 +323,13 @@ h3 {
     background: rgba(74, 93, 78, 0.9); /* Matching Green */
     border: 1px solid var(--accent-gold);
 }
+/* Make available flats look clickable */
+.flat-card.available {
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.flat-card.available:hover {
+    transform: scale(1.02);
+    border-color: var(--primary-green);
+}
