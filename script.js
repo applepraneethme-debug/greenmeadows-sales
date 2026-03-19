@@ -148,17 +148,7 @@ function createFlat(flat) {
     return div;
 }
 
-    div.innerHTML = `
-        <div class="flat-number" style="font-size: 16px;">${flat.flat_number}</div>
-        <div class="unit-info" style="font-size: 10px; color: #666; margin-bottom: 8px;">
-            ${flat.bhk} • ${flat.sft} sft • <strong>${flat.facing}</strong>
-        </div>
-        <div class="status ${statusClass}">
-            ${displayStatus}
-        </div>
-    `;
-    return div;
-}
+
 
 async function updateFlatStatus(){
 
@@ -172,7 +162,4 @@ await supabaseClient
 
 alert("Updated")
 }
-// This makes sure the dashboard loads as soon as the page opens
-window.onload = () => {
-    loadDashboard(); 
-};
+
