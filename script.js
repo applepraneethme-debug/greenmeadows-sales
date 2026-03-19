@@ -251,9 +251,17 @@ function generatePriceSheet() {
     document.getElementById("pdfLoan").innerText = result.loanAmount.toLocaleString();
 
     // Generate PDF
-    const element = document.getElementById("pdfTemplate");
+const element = document.getElementById("pdfTemplate");
 
-    html2pdf().from(element).save(`PriceSheet_${name}.pdf`);
+// temporarily show
+element.style.visibility = "visible";
+element.style.position = "static";
+
+html2pdf().from(element).save(`PriceSheet_${name}.pdf`).then(() => {
+    // hide again
+    element.style.visibility = "hidden";
+    element.style.position = "absolute";
+});
 
     closeModal();
 }
