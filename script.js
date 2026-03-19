@@ -118,19 +118,22 @@ function createFlat(flat) {
     
     // THE WHATSAPP INTEGRATION
     // We only add the click event if the flat is AVAILABLE
-    if (flat.availability === "available") {
-        div.onclick = () => {
-            let message = `*Sunshine Green Meadows - Flat Inquiry*%0A%0A` +
-                          `*Flat:* ${flat.flat_number}%0A` +
-                          `*Configuration:* ${flat.bhk}%0A` +
-                          `*Area:* ${flat.sft} Sft%0A` +
-                          `*Facing:* ${flat.facing}%0A%0A` +
-                          `This unit is currently *AVAILABLE*. %0A` +
-                          `View here: ${window.location.href}`;
-            
-            window.open(`https://wa.me/?text=${message}`, '_blank');
-        };
-    }
+ if (flat.availability === "available") {
+    div.onclick = () => {
+        // Use encodeURIComponent to make sure the message works on all phones
+        let message = encodeURIComponent(
+            `*Sunshine Green Meadows - Flat Inquiry*\n\n` +
+            `*Flat:* ${flat.flat_number}\n` +
+            `*Configuration:* ${flat.bhk}\n` +
+            `*Area:* ${flat.sft} Sft\n` +
+            `*Facing:* ${flat.facing}\n\n` +
+            `This unit is currently *AVAILABLE*.`
+        );
+        
+        // This 'wa.me' link works better on both Android and iPhone
+        window.location.href = `https://wa.me/?text=${message}`;
+    };
+}
 
     div.innerHTML = `
         <div class="flat-number" style="font-size: 16px;">${flat.flat_number}</div>
