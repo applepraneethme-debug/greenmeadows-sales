@@ -91,5 +91,55 @@
   </div>
 </div>
 
+    <!-- PDF TEMPLATE (HIDDEN) -->
+<div id="pdfTemplate" style="display:none; padding:20px; font-family: Arial;">
+
+  <h2 style="text-align:center;">SUNSHINE GREEN MEADOWS - COST SHEET</h2>
+
+  <p><strong>Customer:</strong> <span id="pdfName"></span></p>
+  <p><strong>Flat:</strong> <span id="pdfFlat"></span></p>
+
+  <hr/>
+
+  <table border="1" width="100%" cellspacing="0" cellpadding="5">
+    <tr><th>Description</th><th>Amount</th></tr>
+
+    <tr><td>Area in sft</td><td id="pdfArea"></td></tr>
+    <tr><td>Base Price</td><td id="pdfBase"></td></tr>
+    <tr><td>Amenities</td><td id="pdfAmenities"></td></tr>
+    <tr><td>Total Value</td><td id="pdfTotalValue"></td></tr>
+    <tr><td>GST (5%)</td><td id="pdfGST"></td></tr>
+    <tr><td><strong>Total Amount</strong></td><td id="pdfTotalAmount"></td></tr>
+
+    <tr><td>Facing Charges</td><td id="pdfFacing"></td></tr>
+    <tr><td>Maintenance</td><td id="pdfMaintenance"></td></tr>
+    <tr><td>Corpus Fund</td><td id="pdfCorpus"></td></tr>
+    <tr><td>Registration</td><td id="pdfRegistration"></td></tr>
+    <tr><td>Documentation</td><td id="pdfDoc"></td></tr>
+
+    <tr><td><strong>Total Extra Charges</strong></td><td id="pdfExtra"></td></tr>
+
+    <tr><td><strong>GRAND TOTAL</strong></td><td id="pdfGrand"></td></tr>
+  </table>
+
+  <br/>
+
+  <h4>Payment Schedule</h4>
+  <p>Booking: ₹5,00,000</p>
+  <p>20% Amount: <span id="pdf20"></span></p>
+  <p>Loan Amount: <span id="pdfLoan"></span></p>
+
+  <br/>
+
+  <h4>Kindly Note</h4>
+  <ul>
+    <li>Sale after 20% payment</li>
+    <li>Cheque in favor of Sunshine Infra Pvt Ltd</li>
+    <li>Corpus fund ₹75/sft at handover</li>
+    <li>Documentation ₹15,000 at registration</li>
+  </ul>
+
+</div>
+
 </body>
 </html>
