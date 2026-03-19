@@ -5,7 +5,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 window.onload=loadDashboard
 
-async function loadDashboard(){
+async function loadDashboard(){ 
 
 let {data}=await supabaseClient.from("flats").select("*")
 
