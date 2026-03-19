@@ -105,25 +105,40 @@ function createFlat(flat) {
         return div;
     }
 
-    // NEW CLEAN LOGIC:
-    // Check if the status starts with "reserved" (handles "reserved" and "reserved (M)")
+    // Determine the Class and Text
     let isReserved = flat.availability.toLowerCase().includes("reserved");
     let statusClass = isReserved ? "reserved" : flat.availability;
-    let statusText = flat.availability.toUpperCase();
-
-    // If it's a mortgage unit, make the (M) look nice
-    if (statusText.includes("(M)")) {
-        statusText = statusText.replace("(M)", '<span class="mortgage-tag">(M)</span>');
+    let displayStatus = flat.availability.toUpperCase();
+    
+    if (displayStatus.includes("(M)")) {
+        displayStatus = displayStatus.replace("(M)", '<span class="mortgage-tag">(M)</span>');
     }
 
-    div.className = "flat-card";
+    div.className = `flat-card ${statusClass}`;
+    
+    // THE WHATSAPP INTEGRATION
+    // We only add the click event if the flat is AVAILABLE
+    if (flat.availability === "available") {
+        div.onclick = () => {
+            let message = `*Sunshine Green Meadows - Flat Inquiry*%0A%0A` +
+                          `*Flat:* ${flat.flat_number}%0A` +
+                          `*Configuration:* ${flat.bhk}%0A` +
+                          `*Area:* ${flat.sft} Sft%0A` +
+                          `*Facing:* ${flat.facing}%0A%0A` +
+                          `This unit is currently *AVAILABLE*. %0A` +
+                          `View here: ${window.location.href}`;
+            
+            window.open(`https://wa.me/?text=${message}`, '_blank');
+        };
+    }
+
     div.innerHTML = `
         <div class="flat-number" style="font-size: 16px;">${flat.flat_number}</div>
         <div class="unit-info" style="font-size: 10px; color: #666; margin-bottom: 8px;">
             ${flat.bhk} • ${flat.sft} sft • <strong>${flat.facing}</strong>
         </div>
         <div class="status ${statusClass}">
-            ${statusText}
+            ${displayStatus}
         </div>
     `;
     return div;
