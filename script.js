@@ -105,36 +105,47 @@ function createFlat(flat) {
         return div;
     }
 
-    // Determine the Class and Text
     let isReserved = flat.availability.toLowerCase().includes("reserved");
     let statusClass = isReserved ? "reserved" : flat.availability;
-    let displayStatus = flat.availability.toUpperCase();
-    
-    if (displayStatus.includes("(M)")) {
-        displayStatus = displayStatus.replace("(M)", '<span class="mortgage-tag">(M)</span>');
+    let statusText = flat.availability.toUpperCase();
+
+    if (statusText.includes("(M)")) {
+        statusText = statusText.replace("(M)", '<span class="mortgage-tag">(M)</span>');
     }
 
-    div.className = `flat-card ${statusClass}`;
-    
-    // THE WHATSAPP INTEGRATION
-    // We only add the click event if the flat is AVAILABLE
-if (flat.availability === "available") {
-    div.onclick = () => {
-        // 1. Create the plain text message
-        const text = `*Sunshine Green Meadows - Flat Inquiry*\n\n` +
-                     `*Flat:* ${flat.flat_number}\n` +
-                     `*Configuration:* ${flat.bhk}\n` +
-                     `*Area:* ${flat.sft} Sft\n` +
-                     `*Facing:* ${flat.facing}\n\n` +
-                     `This unit is currently *AVAILABLE*.`;
+    div.className = "flat-card";
+    div.innerHTML = `
+        <div class="flat-number" style="font-size: 16px;">${flat.flat_number}</div>
+        <div class="unit-info" style="font-size: 10px; color: #666; margin-bottom: 8px;">
+            ${flat.bhk} • ${flat.sft} sft • <strong>${flat.facing}</strong>
+        </div>
+        <div class="status ${statusClass}">
+            ${statusText}
+        </div>
+    `;
 
-        // 2. Encode it so the phone app can read it properly
-        const encodedText = encodeURIComponent(text);
+    // ✅ WHATSAPP CLICK FEATURE (FIXED FOR MOBILE)
+    if (flat.availability === "available") {
+        div.style.cursor = "pointer";
 
-        // 3. Use 'window.location.href' for mobile. 
-        // This 'wa.me' link triggers the "Send to..." list in the app.
-        window.location.href = `https://wa.me/?text=${encodedText}`;
-    };
+        div.onclick = () => {
+            const text = `*Sunshine Green Meadows - Flat Inquiry*\n\n` +
+                         `Flat: ${flat.flat_number}\n` +
+                         `Configuration: ${flat.bhk}\n` +
+                         `Area: ${flat.sft} Sft\n` +
+                         `Facing: ${flat.facing}\n\n` +
+                         `This unit is currently AVAILABLE.`;
+
+            const encodedText = encodeURIComponent(text);
+
+            // ✅ CORRECT LINK FOR MOBILE + CONTACT PICKER
+            const url = `https://api.whatsapp.com/send?text=${encodedText}`;
+
+            window.open(url, "_blank");
+        };
+    }
+
+    return div;
 }
 
     div.innerHTML = `
