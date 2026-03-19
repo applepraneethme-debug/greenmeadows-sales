@@ -70,6 +70,26 @@
 </div>
 
 <script src="script.js"></script>
+    <!-- PRICING POPUP -->
+<div id="pricingModal" class="modal">
+  <div class="modal-content">
+    <h3>Generate Price Sheet</h3>
+
+    <label>Customer Name</label>
+    <input type="text" id="customerName" placeholder="Enter name" />
+
+    <label>Price per SFT</label>
+    <input type="number" id="pricePerSft" placeholder="Enter price" />
+
+    <label>
+      <input type="checkbox" id="facingCharges" />
+      Include Facing Charges
+    </label>
+
+    <button onclick="generatePriceSheet()">Generate</button>
+    <button onclick="closeModal()">Cancel</button>
+  </div>
+</div>
 
 </body>
 </html>
