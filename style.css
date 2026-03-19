@@ -138,11 +138,35 @@ h3 {
     border-radius: 16px;
     border: 1px solid #e2e8f0;
 }
+/* --- REPLACE THIS SECTION --- */
 .flat-card {
-    min-width: 100px; /* Ensures they don't get too squished */
+    background: var(--card-bg); /* Keeps card white */
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    min-width: 100px;
     flex: 1;
     text-align: center;
+    transition: transform 0.2s ease;
 }
+
+/* This targets the specific status label inside the card */
+.flat-card .status.available { 
+    background: #dcfce7; 
+    color: #166534; 
+}
+
+.flat-card .status.sold { 
+    background: #fee2e2; 
+    color: #991b1b; 
+}
+
+.flat-card .status.reserved {
+    background: #fff7ed; 
+    color: #ea580c;      
+    border: 1px solid #fdba74;
+}
+/* ---------------------------- */
 .flat-row {
     display: flex; /* Using flex for better control over spacing */
     justify-content: space-around;
@@ -203,21 +227,17 @@ h3 {
     border-color: var(--primary-green);
 } 
 /* NEW LOBBY STYLE */
+/* --- REPLACE THIS SECTION --- */
 .flat-card.lobby-box {
-    background: #eef1ee; /* Very light green-grey */
+    background: #eef1ee !important; /* Force the grey-green lobby color */
     border: 1px dashed var(--primary-green);
-    color: var(--primary-green);
+    color: #94a3b8;
     opacity: 0.6;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #94a3b8;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 12px;
-    box-shadow: none; /* Keep it flat to look like a structural element */
 }
+/* ---------------------------- */
 
 /* LIVE PANEL - CLEANER */
 .live-panel {
