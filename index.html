@@ -91,9 +91,7 @@
   </div>
 </div>
 
-<div id="pdfTemplate" style="visibility:hidden; position:absolute; top:-9999px; left:-9999px; font-family: Arial; width:800px;">
-
-<div id="pdfTemplate" style="visibility:hidden; position:absolute; top:-9999px; left:-9999px; font-family: 'Segoe UI', Arial, sans-serif; width:850px; color: #334155; background: #fff; padding: 40px; border: 1px solid #e2e8f0;">
+<div id="pdfTemplate" style="visibility:visible; position:relative; font-family: 'Segoe UI', Arial, sans-serif; width:850px; color: #334155; background: #fff; padding: 40px; border: 1px solid #e2e8f0; margin: 0 auto; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
 
   <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #1a365d; padding-bottom: 20px; margin-bottom: 25px;">
     <div>
@@ -109,11 +107,11 @@
   <table width="100%" cellspacing="0" cellpadding="10" style="margin-bottom: 20px; border: 1px solid #e2e8f0;">
     <tr style="background: #f8fafc;">
       <td style="width: 25%; color: #d97706; font-weight: bold; font-size: 13px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0;">Customer Name</td>
-      <td style="border-bottom: 1px solid #e2e8f0; font-weight: 600;"><span id="pdfName"></span></td>
+      <td style="border-bottom: 1px solid #e2e8f0; font-weight: 600;"><span id="pdfName">[Customer Name]</span></td>
     </tr>
     <tr>
       <td style="color: #d97706; font-weight: bold; font-size: 13px; text-transform: uppercase;">Block - Floor - Flat</td>
-      <td style="font-weight: 600;"><span id="pdfFlat"></span></td>
+      <td style="font-weight: 600;"><span id="pdfFlat">[Flat Details]</span></td>
     </tr>
   </table>
 
@@ -125,14 +123,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr><td style="border-bottom: 1px solid #f1f5f9;">Area in Sft</td><td align="right" id="pdfArea" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
-      <tr><td style="border-bottom: 1px solid #f1f5f9;">Base Price (per Sft)</td><td align="right" id="pdfBase" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
-      <tr><td style="border-bottom: 1px solid #f1f5f9;">Amenities / Club House / Parking</td><td align="right" id="pdfAmenities" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
-      <tr style="background: #f1f5f9; font-weight: bold;"><td>Total Value</td><td align="right" id="pdfTotalValue"></td></tr>
-      <tr><td style="border-bottom: 1px solid #f1f5f9;">GST Amount (5%)</td><td align="right" id="pdfGST" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Area in Sft</td><td align="right" id="pdfArea" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;">1168</td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Base Price (per Sft)</td><td align="right" id="pdfBase" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;">5,899</td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Amenities / Club House / Parking</td><td align="right" id="pdfAmenities" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;">6,00,000</td></tr>
+      <tr style="background: #f1f5f9; font-weight: bold;"><td>Total Value</td><td align="right" id="pdfTotalValue">74,90,032</td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">GST Amount (5%)</td><td align="right" id="pdfGST" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;">3,74,502</td></tr>
       <tr style="background: #1e293b; color: white; font-weight: bold; font-size: 16px;">
         <td style="padding: 12px;">Total Standard Amount</td>
-        <td align="right" id="pdfTotalAmount" style="padding: 12px;"></td>
+        <td align="right" id="pdfTotalAmount" style="padding: 12px;">78,64,534</td>
       </tr>
     </tbody>
   </table>
@@ -145,21 +143,21 @@
       </tr>
     </thead>
     <tbody>
-      <tr><td style="border-bottom: 1px solid #f1f5f9;">Facing Charges (East/Corner)</td><td align="right" id="pdfFacing" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
-      <tr><td style="border-bottom: 1px solid #f1f5f9;">Maintenance (12 Months)</td><td align="right" id="pdfMaintenance" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
-      <tr><td style="border-bottom: 1px solid #f1f5f9;">Corpus Fund</td><td align="right" id="pdfCorpus" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
-      <tr><td style="border-bottom: 1px solid #f1f5f9;">Registration Charges (7.6%)</td><td align="right" id="pdfRegistration" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
-      <tr><td style="border-bottom: 1px solid #f1f5f9;">Documentation & Processing</td><td align="right" id="pdfDoc" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Facing Charges (East/Corner)</td><td align="right" id="pdfFacing" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;">1,16,800</td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Maintenance (12 Months)</td><td align="right" id="pdfMaintenance" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;">42,048</td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Corpus Fund</td><td align="right" id="pdfCorpus" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;">87,600</td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Registration Charges (7.6%)</td><td align="right" id="pdfRegistration" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;">5,69,242</td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Documentation & Processing</td><td align="right" id="pdfDoc" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;">15,000</td></tr>
       <tr style="background: #f1f5f9; font-weight: bold; color: #1e293b;">
         <td>Total Extra Charges</td>
-        <td align="right" id="pdfExtra"></td>
+        <td align="right" id="pdfExtra">8,30,690</td>
       </tr>
     </tbody>
   </table>
 
   <div style="background: #1a365d; color: white; padding: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; margin-bottom: 25px;">
     <span style="font-size: 18px; text-transform: uppercase; letter-spacing: 1px;">Grand Total (Inclusive of all)</span>
-    <span id="pdfGrand" style="font-size: 24px;"></span>
+    <span id="pdfGrand" style="font-size: 24px;">86,95,224</span>
   </div>
 
   <table width="100%" cellspacing="0" cellpadding="8" style="margin-bottom: 25px; border: 1px solid #e2e8f0; border-left: 5px solid #d97706;">
@@ -167,8 +165,8 @@
       <td colspan="2" style="color: #92400e; font-weight: bold; font-size: 14px; text-transform: uppercase;">Payment Schedule</td>
     </tr>
     <tr><td style="border-bottom: 1px solid #f1f5f9;">Booking Amount</td><td align="right" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;">₹ 5,00,000</td></tr>
-    <tr><td style="border-bottom: 1px solid #f1f5f9;">20% Milestone Amount (Inc. Booking)</td><td align="right" id="pdf20" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
-    <tr><td>Estimated Loan Amount</td><td align="right" id="pdfLoan" style="font-weight: bold; color: #1a365d;"></td></tr>
+    <tr><td style="border-bottom: 1px solid #f1f5f9;">20% Milestone Amount (Inc. Booking)</td><td align="right" id="pdf20" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;">15,72,907</td></tr>
+    <tr><td>Estimated Loan Amount</td><td align="right" id="pdfLoan" style="font-weight: bold; color: #1a365d;">71,22,317</td></tr>
   </table>
 
   <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 4px;">
