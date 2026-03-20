@@ -254,7 +254,7 @@ function generatePriceSheet() {
 const element = document.getElementById("pdfTemplate");
 
 // show temporarily
-element.style.visibility = "visible";
+element.style.visibility = "hidden";
 element.style.position = "static";
 
 // ⬇️ ADD setTimeout HERE
