@@ -273,6 +273,32 @@ setTimeout(() => {
 }, 300);
     closeModal();
 }
+const element = document.getElementById("pdfTemplate");
+
+// wait for images to load
+const images = element.getElementsByTagName("img");
+
+let loaded = 0;
+
+if (images.length === 0) {
+    generatePDF();
+} else {
+    for (let img of images) {
+        if (img.complete) {
+            loaded++;
+        } else {
+            img.onload = () => {
+                loaded++;
+                if (loaded === images.length) generatePDF();
+            };
+        }
+    }
+    if (loaded === images.length) generatePDF();
+}
+
+function generatePDF() {
+    html2pdf().from(element).save(`PriceSheet_${name}.pdf`);
+}
 
 async function updateFlatStatus(){
 
