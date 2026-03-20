@@ -93,87 +93,91 @@
 
 <div id="pdfTemplate" style="visibility:hidden; position:absolute; top:-9999px; left:-9999px; font-family: Arial; width:800px;">
 
-  <!-- HEADER -->
-  <div style="background:#2f5d7c; color:white; padding:10px; text-align:center; font-weight:bold;">
-    SUNSHINE GREEN MEADOWS - COST SHEET
+<div id="pdfTemplate" style="visibility:hidden; position:absolute; top:-9999px; left:-9999px; font-family: 'Segoe UI', Arial, sans-serif; width:850px; color: #334155; background: #fff; padding: 40px; border: 1px solid #e2e8f0;">
+
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #1a365d; padding-bottom: 20px; margin-bottom: 25px;">
+    <div>
+      <img src="logosunshine.jpeg" alt="Sunshine Logo" style="height: 65px; display: block;">
+      <div style="font-size: 10px; color: #64748b; letter-spacing: 2px; margin-top: 5px; text-transform: uppercase;">Enshining Lifestyles</div>
+    </div>
+    <div style="text-align: right;">
+      <h2 style="margin: 0; color: #1a365d; font-size: 22px; letter-spacing: 1px;">SUNSHINE GREEN MEADOWS</h2>
+      <div style="background: #d97706; color: white; display: inline-block; padding: 4px 12px; font-size: 14px; font-weight: bold; margin-top: 8px; border-radius: 4px;">OFFICIAL COST SHEET</div>
+    </div>
   </div>
 
-  <!-- CUSTOMER + DETAILS -->
-  <table border="1" width="100%" cellspacing="0" cellpadding="6">
-    <tr>
-      <td style="color:orange; font-weight:bold;">Customer name</td>
-      <td colspan="2"><span id="pdfName"></span></td>
+  <table width="100%" cellspacing="0" cellpadding="10" style="margin-bottom: 20px; border: 1px solid #e2e8f0;">
+    <tr style="background: #f8fafc;">
+      <td style="width: 25%; color: #d97706; font-weight: bold; font-size: 13px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0;">Customer Name</td>
+      <td style="border-bottom: 1px solid #e2e8f0; font-weight: 600;"><span id="pdfName"></span></td>
     </tr>
     <tr>
-      <td style="color:orange; font-weight:bold;">Block-Floor-Flat</td>
-      <td colspan="2"><span id="pdfFlat"></span></td>
+      <td style="color: #d97706; font-weight: bold; font-size: 13px; text-transform: uppercase;">Block - Floor - Flat</td>
+      <td style="font-weight: 600;"><span id="pdfFlat"></span></td>
     </tr>
   </table>
 
-  <!-- MAIN COST -->
-  <table border="1" width="100%" cellspacing="0" cellpadding="6">
-    <tr style="background:#e5ecf2; font-weight:bold;">
-      <td>Description</td>
-      <td>Amount</td>
-    </tr>
-
-    <tr><td>Area in sft</td><td id="pdfArea"></td></tr>
-    <tr><td>Base Price</td><td id="pdfBase"></td></tr>
-    <tr><td>Amenities / Club House</td><td id="pdfAmenities"></td></tr>
-    <tr><td>Total Value</td><td id="pdfTotalValue"></td></tr>
-    <tr><td>GST 5%</td><td id="pdfGST"></td></tr>
-
-    <tr style="background:#2f5d7c; color:white; font-weight:bold;">
-      <td>Total Amount</td>
-      <td id="pdfTotalAmount"></td>
-    </tr>
+  <table width="100%" cellspacing="0" cellpadding="8" style="margin-bottom: 20px; border: 1px solid #e2e8f0;">
+    <thead>
+      <tr style="background: #1a365d; color: white;">
+        <th align="left" style="padding: 12px;">Standard Unit Description</th>
+        <th align="right" style="padding: 12px;">Amount (₹)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Area in Sft</td><td align="right" id="pdfArea" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Base Price (per Sft)</td><td align="right" id="pdfBase" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Amenities / Club House / Parking</td><td align="right" id="pdfAmenities" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
+      <tr style="background: #f1f5f9; font-weight: bold;"><td>Total Value</td><td align="right" id="pdfTotalValue"></td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">GST Amount (5%)</td><td align="right" id="pdfGST" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
+      <tr style="background: #1e293b; color: white; font-weight: bold; font-size: 16px;">
+        <td style="padding: 12px;">Total Standard Amount</td>
+        <td align="right" id="pdfTotalAmount" style="padding: 12px;"></td>
+      </tr>
+    </tbody>
   </table>
 
-  <!-- EXTRA CHARGES -->
-  <table border="1" width="100%" cellspacing="0" cellpadding="6">
-    <tr>
-      <td style="color:orange; font-weight:bold;">Extra Charges</td>
-      <td></td>
-    </tr>
-
-    <tr><td>Facing Charges</td><td id="pdfFacing"></td></tr>
-    <tr><td>Maintenance</td><td id="pdfMaintenance"></td></tr>
-    <tr><td>Corpus Fund</td><td id="pdfCorpus"></td></tr>
-    <tr><td>Registration 7.6%</td><td id="pdfRegistration"></td></tr>
-    <tr><td>Documentation</td><td id="pdfDoc"></td></tr>
-
-    <tr style="background:#2f5d7c; color:white; font-weight:bold;">
-      <td>Total Extra Charges</td>
-      <td id="pdfExtra"></td>
-    </tr>
+  <table width="100%" cellspacing="0" cellpadding="8" style="margin-bottom: 20px; border: 1px solid #e2e8f0;">
+    <thead>
+      <tr style="background: #64748b; color: white;">
+        <th align="left" style="padding: 10px;">Additional & Statutory Charges</th>
+        <th align="right" style="padding: 10px;">Amount (₹)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Facing Charges (East/Corner)</td><td align="right" id="pdfFacing" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Maintenance (12 Months)</td><td align="right" id="pdfMaintenance" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Corpus Fund</td><td align="right" id="pdfCorpus" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Registration Charges (7.6%)</td><td align="right" id="pdfRegistration" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
+      <tr><td style="border-bottom: 1px solid #f1f5f9;">Documentation & Processing</td><td align="right" id="pdfDoc" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
+      <tr style="background: #f1f5f9; font-weight: bold; color: #1e293b;">
+        <td>Total Extra Charges</td>
+        <td align="right" id="pdfExtra"></td>
+      </tr>
+    </tbody>
   </table>
 
-  <!-- GRAND TOTAL -->
-  <div style="background:#2f5d7c; color:white; padding:10px; font-weight:bold; display:flex; justify-content:space-between;">
-    <span>Grand Total</span>
-    <span id="pdfGrand"></span>
+  <div style="background: #1a365d; color: white; padding: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; margin-bottom: 25px;">
+    <span style="font-size: 18px; text-transform: uppercase; letter-spacing: 1px;">Grand Total (Inclusive of all)</span>
+    <span id="pdfGrand" style="font-size: 24px;"></span>
   </div>
 
-  <!-- PAYMENT -->
-  <table border="1" width="100%" cellspacing="0" cellpadding="6">
-    <tr>
-      <td style="color:orange; font-weight:bold;">Payment Schedule</td>
-      <td></td>
+  <table width="100%" cellspacing="0" cellpadding="8" style="margin-bottom: 25px; border: 1px solid #e2e8f0; border-left: 5px solid #d97706;">
+    <tr style="background: #fffbeb;">
+      <td colspan="2" style="color: #92400e; font-weight: bold; font-size: 14px; text-transform: uppercase;">Payment Schedule</td>
     </tr>
-
-    <tr><td>Booking ₹5,00,000</td><td>Fixed</td></tr>
-    <tr><td>20% Amount</td><td id="pdf20"></td></tr>
-    <tr><td>Loan Amount</td><td id="pdfLoan"></td></tr>
+    <tr><td style="border-bottom: 1px solid #f1f5f9;">Booking Amount</td><td align="right" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;">₹ 5,00,000</td></tr>
+    <tr><td style="border-bottom: 1px solid #f1f5f9;">20% Milestone Amount (Inc. Booking)</td><td align="right" id="pdf20" style="font-weight: 600; border-bottom: 1px solid #f1f5f9;"></td></tr>
+    <tr><td>Estimated Loan Amount</td><td align="right" id="pdfLoan" style="font-weight: bold; color: #1a365d;"></td></tr>
   </table>
 
-  <!-- NOTES -->
-  <div style="border:1px solid black; padding:10px;">
-    <strong>Kindly Note</strong>
-    <ol>
-      <li>Sale after 20% payment</li>
-      <li>Cheque in favor of Sunshine Infra Pvt Ltd</li>
-      <li>Corpus fund ₹75/sft at handover</li>
-      <li>Documentation ₹15,000 at registration</li>
+  <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 4px;">
+    <strong style="color: #1a365d; font-size: 14px; display: block; margin-bottom: 10px; text-transform: uppercase;">Important Terms & Conditions</strong>
+    <ol style="margin: 0; padding-left: 18px; font-size: 12px; color: #475569; line-height: 1.8;">
+      <li>The Sale of Agreement will be executed only after the successful receipt of 20% of the total payment.</li>
+      <li>All cheques/payments must be made in favor of <strong style="color: #1a365d;">"Sunshine Infra Private Limited"</strong>.</li>
+      <li>Corpus fund of ₹75/- per sft is mandatory and payable at the time of property handover.</li>
+      <li>Statutory documentation and registration charges are subject to government norms at the time of registration.</li>
     </ol>
   </div>
 
