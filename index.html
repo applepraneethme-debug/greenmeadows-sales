@@ -91,52 +91,91 @@
   </div>
 </div>
 
-    <!-- PDF TEMPLATE (HIDDEN) -->
-<div id="pdfTemplate" style="visibility:hidden; position:absolute; top:-9999px; left:-9999px;">
-  <h2 style="text-align:center;">SUNSHINE GREEN MEADOWS - COST SHEET</h2>
+<div id="pdfTemplate" style="visibility:hidden; position:absolute; top:-9999px; left:-9999px; font-family: Arial; width:800px;">
 
-  <p><strong>Customer:</strong> <span id="pdfName"></span></p>
-  <p><strong>Flat:</strong> <span id="pdfFlat"></span></p>
+  <!-- HEADER -->
+  <div style="background:#2f5d7c; color:white; padding:10px; text-align:center; font-weight:bold;">
+    SUNSHINE GREEN MEADOWS - COST SHEET
+  </div>
 
-  <hr/>
+  <!-- CUSTOMER + DETAILS -->
+  <table border="1" width="100%" cellspacing="0" cellpadding="6">
+    <tr>
+      <td style="color:orange; font-weight:bold;">Customer name</td>
+      <td colspan="2"><span id="pdfName"></span></td>
+    </tr>
+    <tr>
+      <td style="color:orange; font-weight:bold;">Block-Floor-Flat</td>
+      <td colspan="2"><span id="pdfFlat"></span></td>
+    </tr>
+  </table>
 
-  <table border="1" width="100%" cellspacing="0" cellpadding="5">
-    <tr><th>Description</th><th>Amount</th></tr>
+  <!-- MAIN COST -->
+  <table border="1" width="100%" cellspacing="0" cellpadding="6">
+    <tr style="background:#e5ecf2; font-weight:bold;">
+      <td>Description</td>
+      <td>Amount</td>
+    </tr>
 
     <tr><td>Area in sft</td><td id="pdfArea"></td></tr>
     <tr><td>Base Price</td><td id="pdfBase"></td></tr>
-    <tr><td>Amenities</td><td id="pdfAmenities"></td></tr>
+    <tr><td>Amenities / Club House</td><td id="pdfAmenities"></td></tr>
     <tr><td>Total Value</td><td id="pdfTotalValue"></td></tr>
-    <tr><td>GST (5%)</td><td id="pdfGST"></td></tr>
-    <tr><td><strong>Total Amount</strong></td><td id="pdfTotalAmount"></td></tr>
+    <tr><td>GST 5%</td><td id="pdfGST"></td></tr>
+
+    <tr style="background:#2f5d7c; color:white; font-weight:bold;">
+      <td>Total Amount</td>
+      <td id="pdfTotalAmount"></td>
+    </tr>
+  </table>
+
+  <!-- EXTRA CHARGES -->
+  <table border="1" width="100%" cellspacing="0" cellpadding="6">
+    <tr>
+      <td style="color:orange; font-weight:bold;">Extra Charges</td>
+      <td></td>
+    </tr>
 
     <tr><td>Facing Charges</td><td id="pdfFacing"></td></tr>
     <tr><td>Maintenance</td><td id="pdfMaintenance"></td></tr>
     <tr><td>Corpus Fund</td><td id="pdfCorpus"></td></tr>
-    <tr><td>Registration</td><td id="pdfRegistration"></td></tr>
+    <tr><td>Registration 7.6%</td><td id="pdfRegistration"></td></tr>
     <tr><td>Documentation</td><td id="pdfDoc"></td></tr>
 
-    <tr><td><strong>Total Extra Charges</strong></td><td id="pdfExtra"></td></tr>
-
-    <tr><td><strong>GRAND TOTAL</strong></td><td id="pdfGrand"></td></tr>
+    <tr style="background:#2f5d7c; color:white; font-weight:bold;">
+      <td>Total Extra Charges</td>
+      <td id="pdfExtra"></td>
+    </tr>
   </table>
 
-  <br/>
+  <!-- GRAND TOTAL -->
+  <div style="background:#2f5d7c; color:white; padding:10px; font-weight:bold; display:flex; justify-content:space-between;">
+    <span>Grand Total</span>
+    <span id="pdfGrand"></span>
+  </div>
 
-  <h4>Payment Schedule</h4>
-  <p>Booking: ₹5,00,000</p>
-  <p>20% Amount: <span id="pdf20"></span></p>
-  <p>Loan Amount: <span id="pdfLoan"></span></p>
+  <!-- PAYMENT -->
+  <table border="1" width="100%" cellspacing="0" cellpadding="6">
+    <tr>
+      <td style="color:orange; font-weight:bold;">Payment Schedule</td>
+      <td></td>
+    </tr>
 
-  <br/>
+    <tr><td>Booking ₹5,00,000</td><td>Fixed</td></tr>
+    <tr><td>20% Amount</td><td id="pdf20"></td></tr>
+    <tr><td>Loan Amount</td><td id="pdfLoan"></td></tr>
+  </table>
 
-  <h4>Kindly Note</h4>
-  <ul>
-    <li>Sale after 20% payment</li>
-    <li>Cheque in favor of Sunshine Infra Pvt Ltd</li>
-    <li>Corpus fund ₹75/sft at handover</li>
-    <li>Documentation ₹15,000 at registration</li>
-  </ul>
+  <!-- NOTES -->
+  <div style="border:1px solid black; padding:10px;">
+    <strong>Kindly Note</strong>
+    <ol>
+      <li>Sale after 20% payment</li>
+      <li>Cheque in favor of Sunshine Infra Pvt Ltd</li>
+      <li>Corpus fund ₹75/sft at handover</li>
+      <li>Documentation ₹15,000 at registration</li>
+    </ol>
+  </div>
 
 </div>
 
