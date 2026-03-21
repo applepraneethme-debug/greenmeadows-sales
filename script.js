@@ -189,7 +189,8 @@ setTimeout(async () => {
     const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number}.`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
 
-}, 600);}
+}, 600);
+}
 
 async function updateFlatStatus() {
     let flat   = document.getElementById("flatNumber").value;
