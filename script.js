@@ -232,7 +232,7 @@ function generatePriceSheet() {
 
     // Create a fresh offscreen container, inject HTML, capture — zero DOM side effects
     const wrapper = document.createElement("div");
-    wrapper.style.cssText = "position:absolute;left:0;top:0;width:728px;overflow:hidden;background:#fff;z-index:-1;opacity:0;pointer-events:none;";
+wrapper.style.cssText = "position:absolute;left:0;top:0;width:728px;overflow:hidden;background:#fff;z-index:-1;pointer-events:none;";
     wrapper.innerHTML = html;
     document.body.appendChild(wrapper);
 
