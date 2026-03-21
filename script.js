@@ -126,106 +126,124 @@ function calculateCost(flat, rate, facingEnabled) {
 }
 
 function generatePriceSheet() {
-    const name   = document.getElementById("customerName").value.trim();
-    const rate   = parseFloat(document.getElementById("pricePerSft").value);
+    const name = document.getElementById("customerName").value.trim();
+    const rate = parseFloat(document.getElementById("pricePerSft").value);
     const facing = document.getElementById("facingCharges").checked;
-    if (!name || !rate) { alert("Please fill all fields"); return; }
+    
+    if (!name || !rate) { 
+        alert("Please fill all fields"); 
+        return; 
+    }
+    
     closeModal();
 
     const r = calculateCost(selectedFlat, rate, facing);
-
-    // Get logo from the hidden template in index.html
     const logoSrc = document.querySelector("#pdfTemplate img").src;
 
-    const html = `
-    <div id="pdf-content" style="font-family:'Segoe UI',Arial,sans-serif; width:700px; color:#334155; background:#ffffff; padding:30px;">
-      <table width="100%" cellspacing="0" cellpadding="0" style="border-bottom:3px solid #1a365d; padding-bottom:16px; margin-bottom:20px;">
+    // We create a container specifically styled for mobile compatibility
+    const container = document.createElement("div");
+    container.id = "mobile-pdf-container";
+    
+    // Critical styles for mobile rendering:
+    // 1. Position absolute at 0,0 
+    // 2. Fixed width so it doesn't "squish" on small phone screens
+    // 3. Z-index -1 so the user doesn't see it pop up briefly
+    container.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 800px;
+        background: white;
+        z-index: -1;
+        overflow: hidden;
+    `;
+
+    container.innerHTML = `
+    <div style="font-family:'Segoe UI',Arial,sans-serif; width:100%; color:#334155; background:#ffffff; padding:40px; box-sizing:border-box;">
+      <table width="100%" cellspacing="0" cellpadding="0" style="border-bottom:3px solid #1a365d; padding-bottom:20px; margin-bottom:25px;">
         <tr>
           <td>
             <img src="${logoSrc}" style="height:60px; display:block;" />
             <div style="font-size:10px; color:#64748b; letter-spacing:2px; margin-top:5px; text-transform:uppercase;">Enshining Lifestyles</div>
           </td>
           <td align="right">
-            <div style="font-size:20px; font-weight:bold; color:#1a365d; letter-spacing:1px;">SUNSHINE GREEN MEADOWS</div>
-            <div style="background:#d97706; color:white; display:inline-block; padding:4px 12px; font-size:12px; font-weight:bold; margin-top:8px; border-radius:4px;">OFFICIAL COST SHEET</div>
+            <div style="font-size:22px; font-weight:bold; color:#1a365d; letter-spacing:1px;">SUNSHINE GREEN MEADOWS</div>
+            <div style="background:#d97706; color:white; display:inline-block; padding:5px 12px; font-size:12px; font-weight:bold; margin-top:8px; border-radius:4px;">OFFICIAL COST SHEET</div>
           </td>
         </tr>
       </table>
 
-      <table width="100%" cellspacing="0" cellpadding="10" style="margin-bottom:16px; border:1px solid #e2e8f0;">
+      <table width="100%" cellspacing="0" cellpadding="12" style="margin-bottom:20px; border:1px solid #e2e8f0;">
         <tr style="background:#f8fafc;">
-          <td style="width:30%; color:#d97706; font-weight:bold; font-size:11px; text-transform:uppercase; border-bottom:1px solid #e2e8f0;">Customer Name</td>
-          <td style="border-bottom:1px solid #e2e8f0; font-weight:600; color:#000;">${name}</td>
+          <td style="width:30%; color:#d97706; font-weight:bold; font-size:12px; text-transform:uppercase; border-bottom:1px solid #e2e8f0;">Customer Name</td>
+          <td style="border-bottom:1px solid #e2e8f0; font-weight:600; font-size:16px;">${name}</td>
         </tr>
         <tr>
-          <td style="color:#d97706; font-weight:bold; font-size:11px; text-transform:uppercase;">Unit Details</td>
-          <td style="font-weight:600; color:#000;">Flat ${selectedFlat.flat_number} • Block ${selectedFlat.block} • Floor ${selectedFlat.floor}</td>
+          <td style="color:#d97706; font-weight:bold; font-size:12px; text-transform:uppercase;">Flat Details</td>
+          <td style="font-weight:600; font-size:16px;">Flat No: ${selectedFlat.flat_number} (${selectedFlat.bhk})</td>
         </tr>
       </table>
 
-      <table width="100%" cellspacing="0" cellpadding="8" style="margin-bottom:16px; border:1px solid #e2e8f0;">
+      <table width="100%" cellspacing="0" cellpadding="10" style="margin-bottom:20px; border:1px solid #e2e8f0;">
         <tr style="background:#1a365d; color:white;">
-          <th align="left">Standard Unit Description</th>
+          <th align="left">Description</th>
           <th align="right">Amount (₹)</th>
         </tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Area in Sft</td><td align="right" style="font-weight:600;">${r.area.toLocaleString()}</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Base Price (per Sft)</td><td align="right" style="font-weight:600;">${rate.toLocaleString()}</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Amenities / Parking</td><td align="right" style="font-weight:600;">${r.amenities.toLocaleString()}</td></tr>
+        <tr><td style="border-bottom:1px solid #f1f5f9;">Area (${r.area} Sft) @ ₹${rate}/sft</td><td align="right" style="font-weight:600;">${r.basePrice.toLocaleString()}</td></tr>
+        <tr><td style="border-bottom:1px solid #f1f5f9;">Amenities & Parking</td><td align="right" style="font-weight:600;">${r.amenities.toLocaleString()}</td></tr>
         <tr style="background:#f1f5f9; font-weight:bold;"><td>Total Value</td><td align="right">${r.totalValue.toLocaleString()}</td></tr>
         <tr><td style="border-bottom:1px solid #f1f5f9;">GST (5%)</td><td align="right" style="font-weight:600;">${Math.round(r.gst).toLocaleString()}</td></tr>
-        <tr style="background:#1e293b; color:white; font-weight:bold;">
+        <tr style="background:#1e293b; color:white; font-size:16px; font-weight:bold;">
           <td>Total Standard Amount</td><td align="right">${Math.round(r.totalAmount).toLocaleString()}</td>
         </tr>
       </table>
 
-      <table width="100%" cellspacing="0" cellpadding="8" style="margin-bottom:16px; border:1px solid #e2e8f0;">
-        <tr style="background:#64748b; color:white;"><th align="left">Additional Charges</th><th align="right">Amount (₹)</th></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Facing/Corner Charges</td><td align="right" style="font-weight:600;">${r.facingCharges.toLocaleString()}</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Maintenance & Corpus</td><td align="right" style="font-weight:600;">${(r.maintenance + r.corpus).toLocaleString()}</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Registration (7.6%) & Doc.</td><td align="right" style="font-weight:600;">${Math.round(r.registration + r.documentation).toLocaleString()}</td></tr>
-        <tr style="background:#1a365d; color:white; font-size:16px; font-weight:bold;">
+      <table width="100%" cellspacing="0" cellpadding="10" style="margin-bottom:20px; border:1px solid #e2e8f0;">
+        <tr style="background:#64748b; color:white;"><th align="left">Statutory & Extra Charges</th><th align="right">Amount (₹)</th></tr>
+        <tr><td style="border-bottom:1px solid #f1f5f9;">Facing & Registration Charges</td><td align="right" style="font-weight:600;">${Math.round(r.facingCharges + r.registration).toLocaleString()}</td></tr>
+        <tr><td style="border-bottom:1px solid #f1f5f9;">Maintenance & Corpus Fund</td><td align="right" style="font-weight:600;">${(r.maintenance + r.corpus).toLocaleString()}</td></tr>
+        <tr style="background:#1a365d; color:white; font-size:18px; font-weight:bold;">
           <td>GRAND TOTAL</td><td align="right">${Math.round(r.grandTotal).toLocaleString()}</td>
         </tr>
       </table>
 
-      <div style="border-left:5px solid #d97706; background:#fffbeb; padding:15px; margin-bottom:15px;">
-        <strong style="color:#92400e; font-size:12px; text-transform:uppercase;">Payment Schedule</strong>
-        <table width="100%" style="margin-top:8px;">
-            <tr><td>Booking Amount:</td><td align="right">₹ 5,00,000</td></tr>
-            <tr><td>20% Milestone:</td><td align="right">₹ ${Math.round(r.twentyPercent).toLocaleString()}</td></tr>
-            <tr><td style="font-weight:bold;">Bank Loan:</td><td align="right" style="font-weight:bold; color:#1a365d;">₹ ${Math.round(r.loanAmount).toLocaleString()}</td></tr>
+      <div style="border:1px solid #d97706; border-left:6px solid #d97706; background:#fffbeb; padding:20px; border-radius:4px;">
+        <strong style="color:#92400e; font-size:14px; text-transform:uppercase;">Payment Schedule</strong>
+        <table width="100%" style="margin-top:10px; font-size:14px;">
+            <tr><td style="padding:4px 0;">Booking Amount</td><td align="right">₹ 5,00,000</td></tr>
+            <tr><td style="padding:4px 0;">20% Milestone Amount</td><td align="right">₹ ${Math.round(r.twentyPercent).toLocaleString()}</td></tr>
+            <tr><td style="padding:4px 0; font-weight:bold; border-top:1px solid #d97706;">Estimated Loan</td><td align="right" style="font-weight:bold; color:#1a365d;">₹ ${Math.round(r.loanAmount).toLocaleString()}</td></tr>
         </table>
-      </div>
-
-      <div style="font-size:10px; color:#64748b; line-height:1.4;">
-        Note: Checks to be issued in favor of <strong>"Sunshine Infra Private Limited"</strong>. Registration charges are as per Govt norms.
       </div>
     </div>`;
 
-    // Create container and append to body
-    const container = document.createElement("div");
-    container.style.position = "fixed";
-    container.style.left = "-2000px"; // Move far away instead of opacity 0
-    container.innerHTML = html;
     document.body.appendChild(container);
 
-    // Give it a bit more time for the browser to render the HTML internally
+    // Give it a longer delay for mobile browsers to load the layout
     setTimeout(() => {
-        const element = container.firstElementChild;
         const opt = {
-            margin:      [10, 10],
+            margin:      [5, 5, 5, 5],
             filename:    `PriceSheet_${name.replace(/\s+/g, '_')}.pdf`,
             image:       { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+            html2canvas: { 
+                scale: 2, 
+                useCORS: true, 
+                logging: false,
+                letterRendering: true,
+                // These three lines fix the "pushed to bottom" issue on mobile
+                scrollY: 0,
+                scrollX: 0,
+                windowWidth: 800 
+            },
             jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        html2pdf().set(opt).from(element).save().then(() => {
+        html2pdf().set(opt).from(container).save().then(() => {
             document.body.removeChild(container);
             const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number} attached.`;
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
         });
-    }, 800); 
+    }, 1000); 
 }
 async function updateFlatStatus() {
     let flat   = document.getElementById("flatNumber").value;
