@@ -134,126 +134,99 @@ function generatePriceSheet() {
 
     const r = calculateCost(selectedFlat, rate, facing);
 
-    // Build a self-contained HTML string for the PDF — no DOM tricks needed
-    const logoSrc = document.querySelector("#pdfTemplate img").src; // already base64
+    // Get logo from the hidden template in index.html
+    const logoSrc = document.querySelector("#pdfTemplate img").src;
 
     const html = `
-    <div style="font-family:'Segoe UI',Arial,sans-serif;width:680px;color:#334155;background:#fff;padding:24px;">
-
-      <!-- HEADER -->
-      <table width="100%" cellspacing="0" cellpadding="0" style="border-bottom:3px solid #1a365d;padding-bottom:16px;margin-bottom:20px;">
+    <div id="pdf-content" style="font-family:'Segoe UI',Arial,sans-serif; width:700px; color:#334155; background:#ffffff; padding:30px;">
+      <table width="100%" cellspacing="0" cellpadding="0" style="border-bottom:3px solid #1a365d; padding-bottom:16px; margin-bottom:20px;">
         <tr>
           <td>
-            <img src="${logoSrc}" style="height:55px;display:block;" />
-            <div style="font-size:9px;color:#64748b;letter-spacing:2px;margin-top:4px;text-transform:uppercase;">Enshining Lifestyles</div>
+            <img src="${logoSrc}" style="height:60px; display:block;" />
+            <div style="font-size:10px; color:#64748b; letter-spacing:2px; margin-top:5px; text-transform:uppercase;">Enshining Lifestyles</div>
           </td>
           <td align="right">
-            <div style="font-size:18px;font-weight:bold;color:#1a365d;letter-spacing:1px;">SUNSHINE GREEN MEADOWS</div>
-            <div style="background:#d97706;color:white;display:inline-block;padding:3px 10px;font-size:12px;font-weight:bold;margin-top:6px;border-radius:4px;">OFFICIAL COST SHEET</div>
+            <div style="font-size:20px; font-weight:bold; color:#1a365d; letter-spacing:1px;">SUNSHINE GREEN MEADOWS</div>
+            <div style="background:#d97706; color:white; display:inline-block; padding:4px 12px; font-size:12px; font-weight:bold; margin-top:8px; border-radius:4px;">OFFICIAL COST SHEET</div>
           </td>
         </tr>
       </table>
 
-      <!-- CUSTOMER INFO -->
-      <table width="100%" cellspacing="0" cellpadding="8" style="margin-bottom:16px;border:1px solid #e2e8f0;">
+      <table width="100%" cellspacing="0" cellpadding="10" style="margin-bottom:16px; border:1px solid #e2e8f0;">
         <tr style="background:#f8fafc;">
-          <td style="width:30%;color:#d97706;font-weight:bold;font-size:11px;text-transform:uppercase;border-bottom:1px solid #e2e8f0;">Customer Name</td>
-          <td style="border-bottom:1px solid #e2e8f0;font-weight:600;">${name}</td>
+          <td style="width:30%; color:#d97706; font-weight:bold; font-size:11px; text-transform:uppercase; border-bottom:1px solid #e2e8f0;">Customer Name</td>
+          <td style="border-bottom:1px solid #e2e8f0; font-weight:600; color:#000;">${name}</td>
         </tr>
         <tr>
-          <td style="color:#d97706;font-weight:bold;font-size:11px;text-transform:uppercase;">Block - Floor - Flat</td>
-          <td style="font-weight:600;">${selectedFlat.flat_number}</td>
+          <td style="color:#d97706; font-weight:bold; font-size:11px; text-transform:uppercase;">Unit Details</td>
+          <td style="font-weight:600; color:#000;">Flat ${selectedFlat.flat_number} • Block ${selectedFlat.block} • Floor ${selectedFlat.floor}</td>
         </tr>
       </table>
 
-      <!-- STANDARD CHARGES -->
-      <table width="100%" cellspacing="0" cellpadding="7" style="margin-bottom:16px;border:1px solid #e2e8f0;">
-        <tr style="background:#1a365d;color:white;">
-          <th align="left" style="padding:10px;">Standard Unit Description</th>
-          <th align="right" style="padding:10px;">Amount (₹)</th>
+      <table width="100%" cellspacing="0" cellpadding="8" style="margin-bottom:16px; border:1px solid #e2e8f0;">
+        <tr style="background:#1a365d; color:white;">
+          <th align="left">Standard Unit Description</th>
+          <th align="right">Amount (₹)</th>
         </tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Area in Sft</td><td align="right" style="font-weight:600;border-bottom:1px solid #f1f5f9;">${r.area.toLocaleString()}</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Base Price (per Sft)</td><td align="right" style="font-weight:600;border-bottom:1px solid #f1f5f9;">${r.basePrice.toLocaleString()}</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Amenities / Club House / Parking</td><td align="right" style="font-weight:600;border-bottom:1px solid #f1f5f9;">${r.amenities.toLocaleString()}</td></tr>
-        <tr style="background:#f1f5f9;font-weight:bold;"><td>Total Value</td><td align="right">${r.totalValue.toLocaleString()}</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">GST Amount (5%)</td><td align="right" style="font-weight:600;border-bottom:1px solid #f1f5f9;">${Math.round(r.gst).toLocaleString()}</td></tr>
-        <tr style="background:#1e293b;color:white;font-weight:bold;font-size:14px;">
-          <td style="padding:10px;">Total Standard Amount</td>
-          <td align="right" style="padding:10px;">${Math.round(r.totalAmount).toLocaleString()}</td>
+        <tr><td style="border-bottom:1px solid #f1f5f9;">Area in Sft</td><td align="right" style="font-weight:600;">${r.area.toLocaleString()}</td></tr>
+        <tr><td style="border-bottom:1px solid #f1f5f9;">Base Price (per Sft)</td><td align="right" style="font-weight:600;">${rate.toLocaleString()}</td></tr>
+        <tr><td style="border-bottom:1px solid #f1f5f9;">Amenities / Parking</td><td align="right" style="font-weight:600;">${r.amenities.toLocaleString()}</td></tr>
+        <tr style="background:#f1f5f9; font-weight:bold;"><td>Total Value</td><td align="right">${r.totalValue.toLocaleString()}</td></tr>
+        <tr><td style="border-bottom:1px solid #f1f5f9;">GST (5%)</td><td align="right" style="font-weight:600;">${Math.round(r.gst).toLocaleString()}</td></tr>
+        <tr style="background:#1e293b; color:white; font-weight:bold;">
+          <td>Total Standard Amount</td><td align="right">${Math.round(r.totalAmount).toLocaleString()}</td>
         </tr>
       </table>
 
-      <!-- EXTRA CHARGES -->
-      <table width="100%" cellspacing="0" cellpadding="7" style="margin-bottom:16px;border:1px solid #e2e8f0;">
-        <tr style="background:#64748b;color:white;">
-          <th align="left" style="padding:10px;">Additional & Statutory Charges</th>
-          <th align="right" style="padding:10px;">Amount (₹)</th>
-        </tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Facing Charges (East/Corner)</td><td align="right" style="font-weight:600;border-bottom:1px solid #f1f5f9;">${r.facingCharges.toLocaleString()}</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Maintenance (12 Months)</td><td align="right" style="font-weight:600;border-bottom:1px solid #f1f5f9;">${r.maintenance.toLocaleString()}</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Corpus Fund</td><td align="right" style="font-weight:600;border-bottom:1px solid #f1f5f9;">${r.corpus.toLocaleString()}</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Registration Charges (7.6%)</td><td align="right" style="font-weight:600;border-bottom:1px solid #f1f5f9;">${Math.round(r.registration).toLocaleString()}</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Documentation & Processing</td><td align="right" style="font-weight:600;border-bottom:1px solid #f1f5f9;">${r.documentation.toLocaleString()}</td></tr>
-        <tr style="background:#f1f5f9;font-weight:bold;color:#1e293b;">
-          <td>Total Extra Charges</td><td align="right">${Math.round(r.totalExtra).toLocaleString()}</td>
+      <table width="100%" cellspacing="0" cellpadding="8" style="margin-bottom:16px; border:1px solid #e2e8f0;">
+        <tr style="background:#64748b; color:white;"><th align="left">Additional Charges</th><th align="right">Amount (₹)</th></tr>
+        <tr><td style="border-bottom:1px solid #f1f5f9;">Facing/Corner Charges</td><td align="right" style="font-weight:600;">${r.facingCharges.toLocaleString()}</td></tr>
+        <tr><td style="border-bottom:1px solid #f1f5f9;">Maintenance & Corpus</td><td align="right" style="font-weight:600;">${(r.maintenance + r.corpus).toLocaleString()}</td></tr>
+        <tr><td style="border-bottom:1px solid #f1f5f9;">Registration (7.6%) & Doc.</td><td align="right" style="font-weight:600;">${Math.round(r.registration + r.documentation).toLocaleString()}</td></tr>
+        <tr style="background:#1a365d; color:white; font-size:16px; font-weight:bold;">
+          <td>GRAND TOTAL</td><td align="right">${Math.round(r.grandTotal).toLocaleString()}</td>
         </tr>
       </table>
 
-      <!-- GRAND TOTAL -->
-      <table width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:20px;border-radius:4px;overflow:hidden;">
-        <tr style="background:#1a365d;color:white;">
-          <td style="padding:16px;font-size:15px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;">Grand Total (Inclusive of all)</td>
-          <td align="right" style="padding:16px;font-size:20px;font-weight:bold;white-space:nowrap;">${Math.round(r.grandTotal).toLocaleString()}</td>
-        </tr>
-      </table>
-
-      <!-- PAYMENT SCHEDULE -->
-      <table width="100%" cellspacing="0" cellpadding="7" style="margin-bottom:20px;border:1px solid #e2e8f0;border-left:5px solid #d97706;">
-        <tr style="background:#fffbeb;">
-          <td colspan="2" style="color:#92400e;font-weight:bold;font-size:12px;text-transform:uppercase;">Payment Schedule</td>
-        </tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Booking Amount</td><td align="right" style="font-weight:600;border-bottom:1px solid #f1f5f9;">₹ 5,00,000</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">20% Milestone Amount (Inc. Booking)</td><td align="right" style="font-weight:600;border-bottom:1px solid #f1f5f9;">${Math.round(r.twentyPercent).toLocaleString()}</td></tr>
-        <tr><td>Estimated Loan Amount</td><td align="right" style="font-weight:bold;color:#1a365d;">${Math.round(r.loanAmount).toLocaleString()}</td></tr>
-      </table>
-
-      <!-- T&C -->
-      <div style="background:#f8fafc;border:1px solid #e2e8f0;padding:16px;border-radius:4px;">
-        <strong style="color:#1a365d;font-size:12px;display:block;margin-bottom:8px;text-transform:uppercase;">Important Terms & Conditions</strong>
-        <ol style="margin:0;padding-left:16px;font-size:11px;color:#475569;line-height:1.8;">
-          <li>The Sale of Agreement will be executed only after the successful receipt of 20% of the total payment.</li>
-          <li>All cheques/payments must be made in favor of <strong style="color:#1a365d;">"Sunshine Infra Private Limited"</strong>.</li>
-          <li>Corpus fund of ₹75/- per sft is mandatory and payable at the time of property handover.</li>
-          <li>Statutory documentation and registration charges are subject to government norms at the time of registration.</li>
-        </ol>
+      <div style="border-left:5px solid #d97706; background:#fffbeb; padding:15px; margin-bottom:15px;">
+        <strong style="color:#92400e; font-size:12px; text-transform:uppercase;">Payment Schedule</strong>
+        <table width="100%" style="margin-top:8px;">
+            <tr><td>Booking Amount:</td><td align="right">₹ 5,00,000</td></tr>
+            <tr><td>20% Milestone:</td><td align="right">₹ ${Math.round(r.twentyPercent).toLocaleString()}</td></tr>
+            <tr><td style="font-weight:bold;">Bank Loan:</td><td align="right" style="font-weight:bold; color:#1a365d;">₹ ${Math.round(r.loanAmount).toLocaleString()}</td></tr>
+        </table>
       </div>
 
+      <div style="font-size:10px; color:#64748b; line-height:1.4;">
+        Note: Checks to be issued in favor of <strong>"Sunshine Infra Private Limited"</strong>. Registration charges are as per Govt norms.
+      </div>
     </div>`;
 
-    // Create a fresh offscreen container, inject HTML, capture — zero DOM side effects
-    const wrapper = document.createElement("div");
-    wrapper.style.cssText = "position:absolute;left:0;top:0;width:728px;overflow:hidden;background:#fff;z-index:-1;opacity:0;pointer-events:none;";
-    wrapper.innerHTML = html;
-    document.body.appendChild(wrapper);
+    // Create container and append to body
+    const container = document.createElement("div");
+    container.style.position = "fixed";
+    container.style.left = "-2000px"; // Move far away instead of opacity 0
+    container.innerHTML = html;
+    document.body.appendChild(container);
 
+    // Give it a bit more time for the browser to render the HTML internally
     setTimeout(() => {
-        html2pdf().set({
-            margin:      [8, 8, 8, 8],
-            filename:    `PriceSheet_${name}.pdf`,
+        const element = container.firstElementChild;
+        const opt = {
+            margin:      [10, 10],
+            filename:    `PriceSheet_${name.replace(/\s+/g, '_')}.pdf`,
             image:       { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' },
+            html2canvas: { scale: 2, useCORS: true, letterRendering: true },
             jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        })
-        .from(wrapper)
-        .save()
-        .then(() => {
-            document.body.removeChild(wrapper);
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            document.body.removeChild(container);
             const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number} attached.`;
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
         });
-    }, 300);
+    }, 800); 
 }
-
 async function updateFlatStatus() {
     let flat   = document.getElementById("flatNumber").value;
     let status = document.getElementById("flatStatus").value;
