@@ -207,16 +207,23 @@ function generatePriceSheet() {
     container.style.position = "fixed";
     container.style.left = "-2000px"; // Move far away instead of opacity 0
     container.innerHTML = html;
+    
     document.body.appendChild(container);
 
     // Give it a bit more time for the browser to render the HTML internally
     setTimeout(() => {
         const element = container.firstElementChild;
         const opt = {
-            margin:      [10, 10],
+            margin:      [10, 10,10,10],
             filename:    `PriceSheet_${name.replace(/\s+/g, '_')}.pdf`,
             image:       { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+html2canvas: { 
+                scale: 2, 
+                useCORS: true, 
+                scrollY: 0, 
+                scrollX: 0,
+                windowWidth: 700 // This forces mobile browsers to capture exactly 700px width
+            },
             jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
@@ -224,8 +231,9 @@ function generatePriceSheet() {
             document.body.removeChild(container);
             const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number} attached.`;
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
+            
         });
-    }, 800); 
+    }, 1200); 
 }
 async function updateFlatStatus() {
     let flat   = document.getElementById("flatNumber").value;
