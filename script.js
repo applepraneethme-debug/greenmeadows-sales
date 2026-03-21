@@ -22,9 +22,9 @@ async function loadDashboard() {
     let available = data.filter(f => f.availability === "available").length;
     let sold      = data.filter(f => f.availability === "sold").length;
 
-    document.getElementById("totalUnits").innerText    = total;
+    document.getElementById("totalUnits").innerText     = total;
     document.getElementById("availableUnits").innerText = available;
-    document.getElementById("soldUnits").innerText     = sold;
+    document.getElementById("soldUnits").innerText      = sold;
 
     document.getElementById("liveAvailable").innerText = "Available: " + available;
     document.getElementById("liveSold").innerText      = "Sold: " + sold;
@@ -33,9 +33,7 @@ async function loadDashboard() {
 function openBlock(block) {
     document.querySelectorAll('.block-btn').forEach(btn => {
         btn.classList.remove('active');
-        if (btn.innerText.trim() === `Block ${block}`) {
-            btn.classList.add('active');
-        }
+        if (btn.innerText.trim() === `Block ${block}`) btn.classList.add('active');
     });
 
     let floors = document.getElementById("floors");
@@ -107,7 +105,7 @@ function createFlat(flat) {
 
     let isReserved = flat.availability.toLowerCase().includes("reserved");
     let statusClass = isReserved ? "reserved" : flat.availability;
-    let statusText = flat.availability.toUpperCase();
+    let statusText  = flat.availability.toUpperCase();
 
     if (statusText.includes("(M)")) {
         statusText = statusText.replace("(M)", '<span class="mortgage-tag">(M)</span>');
@@ -119,9 +117,7 @@ function createFlat(flat) {
         <div class="unit-info" style="font-size: 10px; color: #666; margin-bottom: 8px;">
             ${flat.bhk} • ${flat.sft} sft • <strong>${flat.facing}</strong>
         </div>
-        <div class="status ${statusClass}">
-            ${statusText}
-        </div>
+        <div class="status ${statusClass}">${statusText}</div>
     `;
 
     if (flat.availability === "available") {
@@ -133,33 +129,31 @@ function createFlat(flat) {
 }
 
 function calculateCost(flat, rate, facingEnabled) {
-    const area        = flat.sft;
-    const basePrice   = area * rate;
-    let   amenities   = flat.bhk.includes("2") ? 600000 : 700000;
+    const area          = flat.sft;
+    const basePrice     = area * rate;
+    const amenities     = flat.bhk.includes("2") ? 600000 : 700000;
     const facingCharges = facingEnabled ? area * 100 : 0;
 
     const totalValue  = basePrice + amenities;
     const gst         = totalValue * 0.05;
     const totalAmount = totalValue + gst;
 
-    const maintenance    = area * 3 * 12;
-    const corpus         = area * 75;
-    const registration   = totalAmount * 0.076;
-    const documentation  = 15000;
+    const maintenance   = area * 3 * 12;
+    const corpus        = area * 75;
+    const registration  = totalAmount * 0.076;
+    const documentation = 15000;
 
     const totalExtra  = facingCharges + maintenance + corpus + registration + documentation;
     const grandTotal  = totalAmount + totalExtra;
-
-    const bookingAmount  = 500000;
-    const twentyPercent  = grandTotal * 0.20;
-    const loanAmount     = grandTotal - twentyPercent;
+    const twentyPercent = grandTotal * 0.20;
+    const loanAmount    = grandTotal - twentyPercent;
 
     return {
         area, basePrice, amenities, facingCharges,
         totalValue, gst, totalAmount,
         maintenance, corpus, registration, documentation,
         totalExtra, grandTotal,
-        bookingAmount, twentyPercent, loanAmount
+        bookingAmount: 500000, twentyPercent, loanAmount
     };
 }
 
@@ -168,60 +162,76 @@ function generatePriceSheet() {
     const rate   = parseFloat(document.getElementById("pricePerSft").value);
     const facing = document.getElementById("facingCharges").checked;
 
-    if (!name || !rate) {
-        alert("Please fill all fields");
-        return;
-    }
-
+    if (!name || !rate) { alert("Please fill all fields"); return; }
     closeModal();
 
-    const result = calculateCost(selectedFlat, rate, facing);
+    const r = calculateCost(selectedFlat, rate, facing);
 
+    // ── Fill the hidden template ──
     document.getElementById("pdfName").innerText         = name;
     document.getElementById("pdfFlat").innerText         = selectedFlat.flat_number;
-    document.getElementById("pdfArea").innerText         = result.area.toLocaleString();
-    document.getElementById("pdfBase").innerText         = result.basePrice.toLocaleString();
-    document.getElementById("pdfAmenities").innerText    = result.amenities.toLocaleString();
-    document.getElementById("pdfTotalValue").innerText   = result.totalValue.toLocaleString();
-    document.getElementById("pdfGST").innerText          = Math.round(result.gst).toLocaleString();
-    document.getElementById("pdfTotalAmount").innerText  = Math.round(result.totalAmount).toLocaleString();
-    document.getElementById("pdfFacing").innerText       = result.facingCharges.toLocaleString();
-    document.getElementById("pdfMaintenance").innerText  = result.maintenance.toLocaleString();
-    document.getElementById("pdfCorpus").innerText       = result.corpus.toLocaleString();
-    document.getElementById("pdfRegistration").innerText = Math.round(result.registration).toLocaleString();
-    document.getElementById("pdfDoc").innerText          = result.documentation.toLocaleString();
-    document.getElementById("pdfExtra").innerText        = Math.round(result.totalExtra).toLocaleString();
-    document.getElementById("pdfGrand").innerText        = Math.round(result.grandTotal).toLocaleString();
-    document.getElementById("pdf20").innerText           = Math.round(result.twentyPercent).toLocaleString();
-    document.getElementById("pdfLoan").innerText         = Math.round(result.loanAmount).toLocaleString();
+    document.getElementById("pdfArea").innerText         = r.area.toLocaleString();
+    document.getElementById("pdfBase").innerText         = r.basePrice.toLocaleString();
+    document.getElementById("pdfAmenities").innerText    = r.amenities.toLocaleString();
+    document.getElementById("pdfTotalValue").innerText   = r.totalValue.toLocaleString();
+    document.getElementById("pdfGST").innerText          = Math.round(r.gst).toLocaleString();
+    document.getElementById("pdfTotalAmount").innerText  = Math.round(r.totalAmount).toLocaleString();
+    document.getElementById("pdfFacing").innerText       = r.facingCharges.toLocaleString();
+    document.getElementById("pdfMaintenance").innerText  = r.maintenance.toLocaleString();
+    document.getElementById("pdfCorpus").innerText       = r.corpus.toLocaleString();
+    document.getElementById("pdfRegistration").innerText = Math.round(r.registration).toLocaleString();
+    document.getElementById("pdfDoc").innerText          = r.documentation.toLocaleString();
+    document.getElementById("pdfExtra").innerText        = Math.round(r.totalExtra).toLocaleString();
+    document.getElementById("pdfGrand").innerText        = Math.round(r.grandTotal).toLocaleString();
+    document.getElementById("pdf20").innerText           = Math.round(r.twentyPercent).toLocaleString();
+    document.getElementById("pdfLoan").innerText         = Math.round(r.loanAmount).toLocaleString();
 
-    // Reveal the template so html2pdf can capture it
-    const element = document.getElementById("pdfTemplate");
-    // reveal from off-screen
-    element.style.left = "0"; element.style.top = "0"; element.style.position = "static";
-    
-    
+    // ── Clone template into body at top-left for reliable capture ──
+    const source = document.getElementById("pdfTemplate");
+    const clone  = source.cloneNode(true);
+    clone.id     = "pdfClone";
+    clone.style.cssText = [
+        "position: fixed",
+        "left: 0",
+        "top: 0",
+        "z-index: -9999",
+        "width: 700px",
+        "background: #fff",
+        "padding: 24px",
+        "font-family: 'Segoe UI', Arial, sans-serif",
+        "color: #334155",
+        "visibility: visible",
+        "opacity: 1",
+        "pointer-events: none"
+    ].join("; ");
+    document.body.appendChild(clone);
 
     setTimeout(() => {
         const opt = {
-            margin:      [10, 10, 10, 10],
+            margin:      [8, 8, 8, 8],
             filename:    `PriceSheet_${name}.pdf`,
             image:       { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, logging: false },
-            jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            html2canvas: { 
+                scale: 2, 
+                useCORS: true, 
+                logging: false,
+                scrollX: 0,
+                scrollY: 0,
+                windowWidth: 748,
+                x: 0,
+                y: 0
+            },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
         html2pdf()
             .set(opt)
-            .from(element)
+            .from(clone)
             .save()
             .then(() => {
-                element.style.position = "absolute"; element.style.left = "-9999px";
-                
-
+                document.body.removeChild(clone);
                 const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number} attached.`;
-                const url  = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
-                window.open(url, "_blank");
+                window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
             });
     }, 400);
 }
@@ -229,11 +239,6 @@ function generatePriceSheet() {
 async function updateFlatStatus() {
     let flat   = document.getElementById("flatNumber").value;
     let status = document.getElementById("flatStatus").value;
-
-    await supabaseClient
-        .from("flats")
-        .update({ availability: status })
-        .eq("flat_number", flat);
-
+    await supabaseClient.from("flats").update({ availability: status }).eq("flat_number", flat);
     alert("Updated");
 }
