@@ -142,8 +142,7 @@ function generatePriceSheet() {
       <table width="100%" cellspacing="0" cellpadding="0" style="border-bottom:3px solid #1a365d; padding-bottom:16px; margin-bottom:20px;">
         <tr>
           <td>
-            <img src="${logoSrc}" style="height:60px; display:block;" />
-            <div style="font-size:10px; color:#64748b; letter-spacing:2px; margin-top:5px; text-transform:uppercase;">Enshining Lifestyles</div>
+            <img src="${logoSrc}" style="height:80px; display:block;" />
           </td>
           <td align="right">
             <div style="font-size:20px; font-weight:bold; color:#1a365d; letter-spacing:1px;">SUNSHINE GREEN MEADOWS</div>
@@ -159,7 +158,7 @@ function generatePriceSheet() {
         </tr>
         <tr>
           <td style="color:#d97706; font-weight:bold; font-size:11px; text-transform:uppercase;">Unit Details</td>
-          <td style="font-weight:600; color:#000;">Flat ${selectedFlat.flat_number} • Block ${selectedFlat.block} • Floor ${selectedFlat.floor}</td>
+          <td style="font-weight:600; color:#000;">Flat ${selectedFlat.flat_number}</td>
         </tr>
       </table>
 
@@ -198,7 +197,7 @@ function generatePriceSheet() {
       </div>
 
       <div style="font-size:10px; color:#64748b; line-height:1.4;">
-        Note: Checks to be issued in favor of <strong>"Sunshine Infra Private Limited"</strong>. Registration charges are as per Govt norms.
+        Note: 1.Sale of agreement will be done only after the recepit of 20% payment,2.Checks to be issued in favor of <strong>"Sunshine Infra Private Limited"</strong>.,3.Registration charges are as per Govt norms.,4.Corpus fund ₹75/- per-sft at the time of handover,5.Documentation charges ₹15,000/- at the time of registration
       </div>
     </div>`;
 
