@@ -231,27 +231,58 @@ function generatePriceSheet() {
     </div>`;
 
     // Create a fresh offscreen container, inject HTML, capture — zero DOM side effects
-    const wrapper = document.createElement("div");
-wrapper.style.cssText = "position:absolute;left:0;top:0;width:728px;overflow:hidden;background:#fff;z-index:-1;pointer-events:none;";
-    wrapper.innerHTML = html;
-    document.body.appendChild(wrapper);
+const wrapper = document.createElement("div");
 
-    setTimeout(() => {
-        html2pdf().set({
-            margin:      [8, 8, 8, 8],
-            filename:    `PriceSheet_${name}.pdf`,
-            image:       { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' },
-            jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' }
+wrapper.style.position = "fixed";
+wrapper.style.left = "0";
+wrapper.style.top = "0";
+wrapper.style.width = "728px";
+wrapper.style.background = "#fff";
+wrapper.style.zIndex = "9999";   // IMPORTANT: must be visible
+wrapper.style.opacity = "1";     // not hidden
+
+wrapper.innerHTML = html;
+document.body.appendChild(wrapper);
+
+// WAIT FOR RENDER + IMAGES
+setTimeout(async () => {
+    const images = wrapper.querySelectorAll("img");
+
+    await Promise.all(
+        Array.from(images).map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise(resolve => {
+                img.onload = resolve;
+                img.onerror = resolve;
+            });
         })
-        .from(wrapper)
-        .save()
-        .then(() => {
-            document.body.removeChild(wrapper);
-            const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number} attached.`;
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
-        });
-    }, 300);
+    );
+
+    await html2pdf().set({
+        margin: [8, 8, 8, 8],
+        filename: `PriceSheet_${name}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: "#ffffff"
+        },
+        jsPDF: {
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'portrait'
+        }
+    })
+    .from(wrapper)
+    .save();
+
+    document.body.removeChild(wrapper);
+
+    const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number} attached.`;
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
+
+}, 800); // increased delay
 }
 
 async function updateFlatStatus() {
