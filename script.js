@@ -134,55 +134,63 @@ async function generatePriceSheet() {
         alert("Please fill all fields"); 
         return; 
     }
-    
+
     closeModal();
+
     const r = calculateCost(selectedFlat, rate, facing);
-    const logoSrc = document.querySelector("#pdfTemplate img").src;
 
-    const html = `
-    <div style="font-family:'Segoe UI',Arial,sans-serif; width:700px; color:#334155; background:#fff; padding:30px; border:1px solid #eee;">
-      ${/* Your HTML content here */}
-    </div>`;
+    // 🔥 FILL DATA INTO TEMPLATE
+    document.getElementById("pdfName").innerText = name;
+    document.getElementById("pdfFlat").innerText = `${selectedFlat.block}-${selectedFlat.floor}-${selectedFlat.flat_number}`;
+    document.getElementById("pdfArea").innerText = r.area;
+    document.getElementById("pdfBase").innerText = r.basePrice.toLocaleString();
+    document.getElementById("pdfAmenities").innerText = r.amenities.toLocaleString();
+    document.getElementById("pdfTotalValue").innerText = r.totalValue.toLocaleString();
+    document.getElementById("pdfGST").innerText = r.gst.toLocaleString();
+    document.getElementById("pdfTotalAmount").innerText = r.totalAmount.toLocaleString();
+    document.getElementById("pdfFacing").innerText = r.facingCharges.toLocaleString();
+    document.getElementById("pdfMaintenance").innerText = r.maintenance.toLocaleString();
+    document.getElementById("pdfCorpus").innerText = r.corpus.toLocaleString();
+    document.getElementById("pdfRegistration").innerText = r.registration.toLocaleString();
+    document.getElementById("pdfDoc").innerText = r.documentation.toLocaleString();
+    document.getElementById("pdfExtra").innerText = r.totalExtra.toLocaleString();
+    document.getElementById("pdfGrand").innerText = r.grandTotal.toLocaleString();
+    document.getElementById("pdf20").innerText = r.twentyPercent.toLocaleString();
+    document.getElementById("pdfLoan").innerText = r.loanAmount.toLocaleString();
 
-    // 1. Create wrapper and move it far off-screen
-    const wrapper = document.createElement("div");
-    wrapper.style.position = "absolute";
-    wrapper.style.left = "-9999px"; 
-    wrapper.style.top = "0";
-    wrapper.innerHTML = html;
-    document.body.appendChild(wrapper);
+    const element = document.getElementById("pdfTemplate");
 
-    // 2. Wait for images to load
-    const images = wrapper.querySelectorAll("img");
-    await Promise.all(Array.from(images).map(img => {
-        if (img.complete) return Promise.resolve();
-        return new Promise(resolve => { img.onload = resolve; img.onerror = resolve; });
-    }));
+    // 🔥 SHOW TEMPLATE PROPERLY
+    element.style.visibility = "visible";
+    element.style.position = "fixed";
+    element.style.top = "0";
+    element.style.left = "0";
+    element.style.zIndex = "-1";
 
-    // 3. Generate PDF
-    const opt = {
-        margin: [10, 10, 10, 10],
-        filename: `PriceSheet_${name.replace(/\s+/g, '_')}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-            scale: 2, 
-            useCORS: true, 
-            logging: false,
-            letterRendering: true // Helps with blank text issues
-        },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
+    // 🔥 WAIT (VERY IMPORTANT)
+    setTimeout(async () => {
+        try {
+            await html2pdf().set({
+                margin: 10,
+                filename: `PriceSheet_${name}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).from(element).save();
 
-    try {
-        await html2pdf().set(opt).from(wrapper).save();
-    } catch (error) {
-        console.error("PDF Generation Error:", error);
-    } finally {
-        // 4. Cleanup and WhatsApp
-        document.body.removeChild(wrapper);
-        const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number} attached.`;
+        } catch (error) {
+            console.error("PDF Error:", error);
+        }
+
+        // 🔥 HIDE AGAIN
+        element.style.visibility = "hidden";
+        element.style.position = "absolute";
+
+        // WhatsApp
+        const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number}.`;
         window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
-    }
+
+    }, 500);
 }
 
 async function updateFlatStatus() {
