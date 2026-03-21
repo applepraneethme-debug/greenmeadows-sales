@@ -160,34 +160,47 @@ async function generatePriceSheet() {
 
 const element = document.getElementById("pdfTemplate");
 
-// ✅ SHOW TEMPLATE PROPERLY
+// ✅ SHOW TEMPLATE
 element.style.display = "block";
 
-// wait for rendering
-setTimeout(async () => {
-    try {
-        await html2pdf().set({
-            margin: 10,
-            filename: `PriceSheet_${name}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { 
-                scale: 2, 
-                useCORS: true,
-                letterRendering: true
-            },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        }).from(element).save();
+// ✅ FORCE BROWSER TO RENDER FIRST
+await new Promise(resolve => setTimeout(resolve, 800));
 
-    } catch (error) {
-        console.error("PDF Error:", error);
-    }
+// ✅ ALSO WAIT FOR IMAGES (VERY IMPORTANT FOR YOUR LOGO)
+const images = element.querySelectorAll("img");
+await Promise.all(
+  Array.from(images).map(img => {
+    if (img.complete) return Promise.resolve();
+    return new Promise(res => {
+      img.onload = res;
+      img.onerror = res;
+    });
+  })
+);
 
-    // ✅ HIDE AGAIN AFTER PDF
-    element.style.display = "none";
+try {
+    await html2pdf().set({
+        margin: 10,
+        filename: `PriceSheet_${name}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+            scale: 2, 
+            useCORS: true,
+            letterRendering: true
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(element).save();
 
-    // WhatsApp
-    const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number}.`;
-    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
+} catch (error) {
+    console.error("PDF Error:", error);
+}
+
+// ✅ HIDE AGAIN
+element.style.display = "none";
+
+// WhatsApp
+const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number}.`;
+window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
 
 }, 600);
 }
