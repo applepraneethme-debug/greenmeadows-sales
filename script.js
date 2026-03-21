@@ -135,6 +135,7 @@ async function generatePriceSheet() {
         return; 
     }
 
+    // Assuming closeModal() and selectedFlat are defined elsewhere in your script
     closeModal();
 
     const r = calculateCost(selectedFlat, rate, facing);
@@ -158,52 +159,49 @@ async function generatePriceSheet() {
     document.getElementById("pdf20").innerText = r.twentyPercent.toLocaleString();
     document.getElementById("pdfLoan").innerText = r.loanAmount.toLocaleString();
 
-const element = document.getElementById("pdfTemplate");
+    const element = document.getElementById("pdfTemplate");
 
-// ✅ SHOW TEMPLATE
-element.style.display = "block";
+    // ✅ SHOW TEMPLATE
+    element.style.display = "block";
 
-// ✅ FORCE BROWSER TO RENDER FIRST
-await new Promise(resolve => setTimeout(resolve, 800));
+    // ✅ FORCE BROWSER TO RENDER FIRST
+    await new Promise(resolve => setTimeout(resolve, 800));
 
-// ✅ ALSO WAIT FOR IMAGES (VERY IMPORTANT FOR YOUR LOGO)
-const images = element.querySelectorAll("img");
-await Promise.all(
-  Array.from(images).map(img => {
-    if (img.complete) return Promise.resolve();
-    return new Promise(res => {
-      img.onload = res;
-      img.onerror = res;
-    });
-  })
-);
+    // ✅ ALSO WAIT FOR IMAGES
+    const images = element.querySelectorAll("img");
+    await Promise.all(
+        Array.from(images).map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise(res => {
+                img.onload = res;
+                img.onerror = res;
+            });
+        })
+    );
 
-try {
-    await html2pdf().set({
-        margin: 10,
-        filename: `PriceSheet_${name}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-            scale: 2, 
-            useCORS: true,
-            letterRendering: true
-        },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(element).save();
+    try {
+        await html2pdf().set({
+            margin: 10,
+            filename: `PriceSheet_${name}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 2, 
+                useCORS: true,
+                letterRendering: true
+            },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        }).from(element).save();
 
-} catch (error) {
-    console.error("PDF Error:", error);
-}
+    } catch (error) {
+        console.error("PDF Error:", error);
+    }
 
-// ✅ HIDE AGAIN
-element.style.display = "none";
+    // ✅ HIDE AGAIN
+    element.style.display = "none";
 
-// WhatsApp
-const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number}.`;
-window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
-
-}, 600);
-
+    // WhatsApp
+    const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number}.`;
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
 }
 
 async function updateFlatStatus() {
