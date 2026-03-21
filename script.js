@@ -130,77 +130,77 @@ async function generatePriceSheet() {
     const rate = parseFloat(document.getElementById("pricePerSft").value);
     const facing = document.getElementById("facingCharges").checked;
 
-    if (!name || !rate) { 
-        alert("Please fill all fields"); 
-        return; 
+    if (!name || !rate) {
+        alert("Please fill all fields");
+        return;
     }
 
-    // Assuming closeModal() and selectedFlat are defined elsewhere in your script
     closeModal();
 
     const r = calculateCost(selectedFlat, rate, facing);
 
-    // 🔥 FILL DATA INTO TEMPLATE
+    // Fill all values
     document.getElementById("pdfName").innerText = name;
-    document.getElementById("pdfFlat").innerText = `${selectedFlat.block}-${selectedFlat.floor}-${selectedFlat.flat_number}`;
+    document.getElementById("pdfFlat").innerText = `${selectedFlat.block} - ${selectedFlat.floor} - ${selectedFlat.flat_number}`;
     document.getElementById("pdfArea").innerText = r.area;
-    document.getElementById("pdfBase").innerText = r.basePrice.toLocaleString();
-    document.getElementById("pdfAmenities").innerText = r.amenities.toLocaleString();
-    document.getElementById("pdfTotalValue").innerText = r.totalValue.toLocaleString();
-    document.getElementById("pdfGST").innerText = r.gst.toLocaleString();
-    document.getElementById("pdfTotalAmount").innerText = r.totalAmount.toLocaleString();
-    document.getElementById("pdfFacing").innerText = r.facingCharges.toLocaleString();
-    document.getElementById("pdfMaintenance").innerText = r.maintenance.toLocaleString();
-    document.getElementById("pdfCorpus").innerText = r.corpus.toLocaleString();
-    document.getElementById("pdfRegistration").innerText = r.registration.toLocaleString();
-    document.getElementById("pdfDoc").innerText = r.documentation.toLocaleString();
-    document.getElementById("pdfExtra").innerText = r.totalExtra.toLocaleString();
-    document.getElementById("pdfGrand").innerText = r.grandTotal.toLocaleString();
-    document.getElementById("pdf20").innerText = r.twentyPercent.toLocaleString();
-    document.getElementById("pdfLoan").innerText = r.loanAmount.toLocaleString();
+    document.getElementById("pdfBase").innerText = r.basePrice.toLocaleString('en-IN');
+    document.getElementById("pdfAmenities").innerText = r.amenities.toLocaleString('en-IN');
+    document.getElementById("pdfTotalValue").innerText = r.totalValue.toLocaleString('en-IN');
+    document.getElementById("pdfGST").innerText = r.gst.toLocaleString('en-IN');
+    document.getElementById("pdfTotalAmount").innerText = r.totalAmount.toLocaleString('en-IN');
+    document.getElementById("pdfFacing").innerText = r.facingCharges.toLocaleString('en-IN');
+    document.getElementById("pdfMaintenance").innerText = r.maintenance.toLocaleString('en-IN');
+    document.getElementById("pdfCorpus").innerText = r.corpus.toLocaleString('en-IN');
+    document.getElementById("pdfRegistration").innerText = r.registration.toLocaleString('en-IN');
+    document.getElementById("pdfDoc").innerText = r.documentation.toLocaleString('en-IN');
+    document.getElementById("pdfExtra").innerText = r.totalExtra.toLocaleString('en-IN');
+    document.getElementById("pdfGrand").innerText = r.grandTotal.toLocaleString('en-IN');
+    document.getElementById("pdf20").innerText = r.twentyPercent.toLocaleString('en-IN');
+    document.getElementById("pdfLoan").innerText = r.loanAmount.toLocaleString('en-IN');
 
     const element = document.getElementById("pdfTemplate");
 
-    // ✅ SHOW TEMPLATE
-    element.style.display = "block";
-
-    // ✅ FORCE BROWSER TO RENDER FIRST
+    // KEY FIX: show block, positioned off-screen (left:-9999px in CSS)
+    // so html2canvas CAN see it, but user cannot
+element.style.visibility = "visible";
+    // Wait for browser to fully paint the element
     await new Promise(resolve => setTimeout(resolve, 800));
 
-    // ✅ ALSO WAIT FOR IMAGES
+    // Wait for any images to load
     const images = element.querySelectorAll("img");
-    await Promise.all(
-        Array.from(images).map(img => {
-            if (img.complete) return Promise.resolve();
-            return new Promise(res => {
-                img.onload = res;
-                img.onerror = res;
-            });
-        })
-    );
+    await Promise.all(Array.from(images).map(img => {
+        if (img.complete && img.naturalHeight !== 0) return Promise.resolve();
+        return new Promise(res => { img.onload = res; img.onerror = res; });
+    }));
 
     try {
-        await html2pdf().set({
-            margin: 10,
-            filename: `PriceSheet_${name}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { 
-                scale: 2, 
-                useCORS: true,
-                letterRendering: true
-            },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        }).from(element).save();
-
+        await html2pdf()
+            .set({
+                margin: [10, 10, 10, 10],
+                filename: `CostSheet_${name}_${selectedFlat.flat_number}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    logging: false,
+                    backgroundColor: '#ffffff',
+                    windowWidth: 794
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            })
+            .from(element)
+            .save();
     } catch (error) {
         console.error("PDF Error:", error);
+        alert("PDF generation failed. Please try again.");
     }
 
-    // ✅ HIDE AGAIN
+    // Hide again after PDF is saved
     element.style.display = "none";
 
-    // WhatsApp
-    const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number}.`;
+    // WhatsApp share
+    const text = `Hi ${name}, here is the cost sheet for Flat ${selectedFlat.flat_number} at Sunshine Green Meadows.\n\nGrand Total: ₹${r.grandTotal.toLocaleString('en-IN')}`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
 }
 
