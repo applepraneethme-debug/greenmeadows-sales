@@ -158,40 +158,38 @@ async function generatePriceSheet() {
     document.getElementById("pdf20").innerText = r.twentyPercent.toLocaleString();
     document.getElementById("pdfLoan").innerText = r.loanAmount.toLocaleString();
 
-    const element = document.getElementById("pdfTemplate");
+const element = document.getElementById("pdfTemplate");
 
-    // 🔥 SHOW TEMPLATE PROPERLY
-    element.style.visibility = "visible";
-    element.style.position = "fixed";
-    element.style.top = "0";
-    element.style.left = "0";
-    element.style.zIndex = "-1";
+// ✅ SHOW TEMPLATE PROPERLY
+element.style.display = "block";
 
-    // 🔥 WAIT (VERY IMPORTANT)
-    setTimeout(async () => {
-        try {
-            await html2pdf().set({
-                margin: 10,
-                filename: `PriceSheet_${name}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            }).from(element).save();
+// wait for rendering
+setTimeout(async () => {
+    try {
+        await html2pdf().set({
+            margin: 10,
+            filename: `PriceSheet_${name}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 2, 
+                useCORS: true,
+                letterRendering: true
+            },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        }).from(element).save();
 
-        } catch (error) {
-            console.error("PDF Error:", error);
-        }
+    } catch (error) {
+        console.error("PDF Error:", error);
+    }
 
-        // 🔥 HIDE AGAIN
-        element.style.visibility = "hidden";
-        element.style.position = "absolute";
+    // ✅ HIDE AGAIN AFTER PDF
+    element.style.display = "none";
 
-        // WhatsApp
-        const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number}.`;
-        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
+    // WhatsApp
+    const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number}.`;
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
 
-    }, 500);
-}
+}, 600);
 
 async function updateFlatStatus() {
     let flat   = document.getElementById("flatNumber").value;
