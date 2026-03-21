@@ -203,6 +203,7 @@ const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.fla
 window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
 
 }, 600);
+
 }
 
 async function updateFlatStatus() {
