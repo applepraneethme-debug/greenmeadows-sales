@@ -214,16 +214,10 @@ function generatePriceSheet() {
     setTimeout(() => {
         const element = container.firstElementChild;
         const opt = {
-            margin:      [10, 10,10,10],
+            margin:      [10, 10],
             filename:    `PriceSheet_${name.replace(/\s+/g, '_')}.pdf`,
             image:       { type: 'jpeg', quality: 0.98 },
-html2canvas: { 
-                scale: 2, 
-                useCORS: true, 
-                scrollY: 0, 
-                scrollX: 0,
-                windowWidth: 700 // This forces mobile browsers to capture exactly 700px width
-            },
+html2canvas: { scale: 2, useCORS: true, letterRendering: true },
             jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
@@ -233,7 +227,7 @@ html2canvas: {
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
             
         });
-    }, 1200); 
+    }, 800); 
 }
 async function updateFlatStatus() {
     let flat   = document.getElementById("flatNumber").value;
