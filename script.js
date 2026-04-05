@@ -189,7 +189,7 @@ function generatePriceSheet() {
         <table width="100%" style="margin-top:8px;">
             <tr><td>Booking Amount:</td><td align="right">₹ 5,00,000</td></tr>
             <tr><td>20% Milestone:</td><td align="right">₹ ${Math.round(r.twentyPercent).toLocaleString()}</td></tr>
-            <tr><td style="font-weight:bold;">Bank Loan:</td><td align="right" style="font-weight:bold; color:#1a365d;">₹ ${Math.round(r.loanAmount).toLocaleString()}</td></tr>
+            <tr><td style="font-weight:bold;">Expected Bank Loan:</td><td align="right" style="font-weight:bold; color:#1a365d;">₹ ${Math.round(r.loanAmount).toLocaleString()}</td></tr>
         </table>
       </div>
 
@@ -219,11 +219,11 @@ html2canvas: { scale: 2, useCORS: true, letterRendering: true },
 
         html2pdf().set(opt).from(element).save().then(() => {
             document.body.removeChild(container);
-            const text = `Hi ${name}, please find the cost sheet for flat ${selectedFlat.flat_number} attached.`;
+            const text = `Hi ${name} garu , please find the final cost sheet for flat ${selectedFlat.flat_number} attached.`;
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
             
         });
-    }, 800); 
+    }, 1000); 
 }
 async function updateFlatStatus() {
     let flat   = document.getElementById("flatNumber").value;
