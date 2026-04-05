@@ -81,10 +81,15 @@
     <label>Price per SFT</label>
     <input type="number" id="pricePerSft" placeholder="Enter price" />
 
-    <label>
-      <input type="checkbox" id="facingCharges" />
-      Include Facing Charges
-    </label>
+ <label>
+  <input type="checkbox" id="facingCharges" />
+  Facing Charges (₹100/sft)
+</label>
+
+<label>
+  <input type="checkbox" id="cornerCharges" />
+  Corner Charges (₹100/sft)
+</label>
 
     <button onclick="generatePriceSheet()">Generate</button>
     <button onclick="closeModal()">Cancel</button>
