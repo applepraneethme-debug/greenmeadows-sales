@@ -205,7 +205,7 @@ function generatePriceSheet() {
         <strong style="color:#92400e; font-size:12px; text-transform:uppercase;">Payment Schedule</strong>
         <table width="100%" style="margin-top:8px;">
             <tr><td>Booking Amount:</td><td align="right">₹ 5,00,000</td></tr>
-            <tr><td>20% Milestone:</td><td align="right">₹ ${Math.round(r.twentyPercent).toLocaleString()}</td></tr>
+            <tr><td>20% Milestone(Including Booking Amount):</td><td align="right">₹ ${Math.round(r.twentyPercent).toLocaleString()}</td></tr>
             <tr><td style="font-weight:bold;">Expected Bank Loan:</td><td align="right" style="font-weight:bold; color:#1a365d;">₹ ${Math.round(r.loanAmount).toLocaleString()}</td></tr>
         </table>
       </div>
