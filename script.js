@@ -104,21 +104,30 @@ function createFlat(flat) {
     return div;
 }
 
-function calculateCost(flat, rate, facingEnabled) {
+function calculateCost(flat, rate, facingEnabled, cornerEnabled) {
     const area          = flat.sft;
     const basePrice     = area * rate;
     const amenities     = flat.bhk.includes("2") ? 600000 : 700000;
+    
+    // Calculate each separately
     const facingCharges = facingEnabled ? area * 100 : 0;
+    const cornerCharges = cornerEnabled ? area * 100 : 0;
+    
     const totalValue    = basePrice + amenities;
     const gst           = totalValue * 0.05;
     const totalAmount   = totalValue + gst;
+    
     const maintenance   = area * 3 * 12;
     const corpus        = area * 75;
-    const totalExtra    = facingCharges + maintenance + corpus;
+    
+    // Sum them up for the total extra (Registration/Doc removed as per your last request)
+    const totalExtra    = facingCharges + cornerCharges + maintenance + corpus;
+    
     const grandTotal    = totalAmount + totalExtra;
     const twentyPercent = grandTotal * 0.20;
     const loanAmount    = grandTotal - twentyPercent;
-    return { area, basePrice, amenities, facingCharges, totalValue, gst, totalAmount,
+
+    return { area, basePrice, amenities, facingCharges, cornerCharges, totalValue, gst, totalAmount,
              maintenance, corpus, totalExtra, grandTotal,
              bookingAmount: 500000, twentyPercent, loanAmount };
 }
