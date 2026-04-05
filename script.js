@@ -114,14 +114,12 @@ function calculateCost(flat, rate, facingEnabled) {
     const totalAmount   = totalValue + gst;
     const maintenance   = area * 3 * 12;
     const corpus        = area * 75;
-    const registration  = totalAmount * 0.076;
-    const documentation = 15000;
-    const totalExtra    = facingCharges + maintenance + corpus + registration + documentation;
+    const totalExtra    = facingCharges + maintenance + corpus;
     const grandTotal    = totalAmount + totalExtra;
     const twentyPercent = grandTotal * 0.20;
     const loanAmount    = grandTotal - twentyPercent;
     return { area, basePrice, amenities, facingCharges, totalValue, gst, totalAmount,
-             maintenance, corpus, registration, documentation, totalExtra, grandTotal,
+             maintenance, corpus, totalExtra, grandTotal,
              bookingAmount: 500000, twentyPercent, loanAmount };
 }
 
@@ -181,7 +179,6 @@ function generatePriceSheet() {
         <tr style="background:#64748b; color:white;"><th align="left">Additional Charges</th><th align="right">Amount (₹)</th></tr>
         <tr><td style="border-bottom:1px solid #f1f5f9;">Facing/Corner Charges</td><td align="right" style="font-weight:600;">${r.facingCharges.toLocaleString()}</td></tr>
         <tr><td style="border-bottom:1px solid #f1f5f9;">Maintenance & Corpus</td><td align="right" style="font-weight:600;">${(r.maintenance + r.corpus).toLocaleString()}</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Registration (7.6%) & Doc.</td><td align="right" style="font-weight:600;">${Math.round(r.registration + r.documentation).toLocaleString()}</td></tr>
         <tr style="background:#1a365d; color:white; font-size:16px; font-weight:bold;">
           <td>GRAND TOTAL</td><td align="right">${Math.round(r.grandTotal).toLocaleString()}</td>
         </tr>
