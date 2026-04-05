@@ -187,15 +187,19 @@ function generatePriceSheet() {
           <td>Total Standard Amount</td><td align="right">${Math.round(r.totalAmount).toLocaleString()}</td>
         </tr>
       </table>
-
-      <table width="100%" cellspacing="0" cellpadding="8" style="margin-bottom:16px; border:1px solid #e2e8f0;">
-        <tr style="background:#64748b; color:white;"><th align="left">Additional Charges</th><th align="right">Amount (₹)</th></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Facing/Corner Charges</td><td align="right" style="font-weight:600;">${r.facingCharges.toLocaleString()}</td></tr>
-        <tr><td style="border-bottom:1px solid #f1f5f9;">Maintenance & Corpus</td><td align="right" style="font-weight:600;">${(r.maintenance + r.corpus).toLocaleString()}</td></tr>
-        <tr style="background:#1a365d; color:white; font-size:16px; font-weight:bold;">
-          <td>GRAND TOTAL</td><td align="right">${Math.round(r.grandTotal).toLocaleString()}</td>
-        </tr>
-      </table>
+<table width="100%" cellspacing="0" cellpadding="8" style="margin-bottom:16px; border:1px solid #e2e8f0;">
+  <tr style="background:#64748b; color:white;"><th align="left">Additional Charges</th><th align="right">Amount (₹)</th></tr>
+  
+  <tr><td style="border-bottom:1px solid #f1f5f9;">Facing Charges (₹100/sft)</td><td align="right" style="font-weight:600;">${r.facingCharges.toLocaleString()}</td></tr>
+  
+  <tr><td style="border-bottom:1px solid #f1f5f9;">Corner Charges (₹100/sft)</td><td align="right" style="font-weight:600;">${r.cornerCharges.toLocaleString()}</td></tr>
+  
+  <tr><td style="border-bottom:1px solid #f1f5f9;">Maintenance & Corpus</td><td align="right" style="font-weight:600;">${(r.maintenance + r.corpus).toLocaleString()}</td></tr>
+  
+  <tr style="background:#1a365d; color:white; font-size:16px; font-weight:bold;">
+    <td>GRAND TOTAL</td><td align="right">${Math.round(r.grandTotal).toLocaleString()}</td>
+  </tr>
+</table>
 
       <div style="border-left:5px solid #d97706; background:#fffbeb; padding:15px; margin-bottom:15px;">
         <strong style="color:#92400e; font-size:12px; text-transform:uppercase;">Payment Schedule</strong>
