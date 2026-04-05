@@ -133,13 +133,17 @@ function calculateCost(flat, rate, facingEnabled, cornerEnabled) {
 }
 
 function generatePriceSheet() {
+
     const name   = document.getElementById("customerName").value.trim();
     const rate   = parseFloat(document.getElementById("pricePerSft").value);
     const facing = document.getElementById("facingCharges").checked;
+    const corner = document.getElementById("cornerCharges").checked; // NEW
+    
     if (!name || !rate) { alert("Please fill all fields"); return; }
     closeModal();
 
-    const r = calculateCost(selectedFlat, rate, facing);
+    const r = calculateCost(selectedFlat, rate, facing, corner); // Pass both
+    // ... rest of function
 
     // Get logo from the hidden template in index.html
     const logoSrc = document.querySelector("#pdfTemplate img").src;
