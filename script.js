@@ -211,7 +211,7 @@ function generatePriceSheet() {
       </div>
 
       <div style="font-size:10px; color:#64748b; line-height:1.4;">
-        Note: 1.Sale of agreement will be done only after the recepit of 20% payment,2.Checks to be issued in favor of <strong>"Sunshine Infra Private Limited"</strong>.,3.Registration charges are as per Govt norms.,4.Corpus fund ₹75/- per-sft at the time of handover,5.Documentation charges ₹15,000/- at the time of registration
+        Note: 1.Sale of agreement will be done only after the recepit of 20% payment,2.Checks to be issued in favor of <strong>"Sunshine Infra Private Limited sunshine green meadows master escrow A/C"</strong>.,3.Registration charges are as per Govt norms.,4.Corpus fund ₹75/- per-sft at the time of handover,5.Documentation charges ₹15,000/- at the time of registration
       </div>
     </div>`;
 
